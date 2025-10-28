@@ -1319,4 +1319,4 @@ end
 
 CrimsonUI.Icons = Icons
 
-return CrimsonUI
+return function() return CrimsonUI end
