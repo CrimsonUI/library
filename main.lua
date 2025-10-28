@@ -249,7 +249,7 @@ function CrimsonUI:CreateWindow(config)
 	Title.Name = "Title"
 	Title.BackgroundTransparency = 1
 	Title.Position = UDim2.new(0, 20, 0, 0)
-	Title.Size = UDim2.new(0.5, 0, 1, Title)
+	Title.Size = UDim2.new(0.5, 0, 1, 0)
 	Title.Font = Enum.Font.GothamBold
 	Title.Text = windowConfig.Name
 	Title.TextColor3 = Colors.Text
@@ -899,7 +899,16 @@ function CrimsonUI:CreateWindow(config)
 			ListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 			ListLayout.Parent = DropdownList
 
+			local ListPadding = Instance.new("UIPadding")
+			ListPadding.PaddingTop = UDim.new(0, 4)
+			ListPadding.PaddingBottom = UDim.new(0, 4)
+			ListPadding.Parent = DropdownList
+
 			local isOpen = false
+
+			local function updateListSize()
+				DropdownList.Size = UDim2.new(0.5, -16, 0, ListLayout.AbsoluteContentSize.Y + 8)
+			end
 
 			for _, option in ipairs(dropdownConfig.Options) do
 				local OptionButton = Instance.new("TextButton")
@@ -935,14 +944,14 @@ function CrimsonUI:CreateWindow(config)
 				end)
 			end
 
-			ListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-				DropdownList.Size = UDim2.new(0.5, -16, 0, ListLayout.AbsoluteContentSize.Y)
-			end)
+			ListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateListSize)
+			task.spawn(updateListSize)
 
 			Hitbox.MouseButton1Click:Connect(function()
 				isOpen = not isOpen
 				if isOpen then
-					local targetHeight = (isMobile and 54 or 38) + ListLayout.AbsoluteContentSize.Y + 8
+					updateListSize()
+					local targetHeight = (isMobile and 54 or 38) + DropdownList.Size.Y.Offset
 					Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, targetHeight)}, 0.3)
 					Tween(DropdownIcon, {Rotation = 180}, 0.3)
 				else
