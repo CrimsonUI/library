@@ -65,85 +65,130 @@ local Themes = {
 		Background = Color3.fromRGB(90, 25, 140),
 		Text = Color3.fromRGB(255, 255, 255),
 		TextDark = Color3.fromRGB(200, 200, 200)
+	},
+	["Rose"] = {
+		Primary = Color3.fromRGB(220, 20, 60),
+		Highlight = Color3.fromRGB(255, 20, 80),
+		Accent = Color3.fromRGB(180, 15, 50),
+		Secondary = Color3.fromRGB(200, 30, 70),
+		Background = Color3.fromRGB(160, 20, 55),
+		Text = Color3.fromRGB(255, 220, 230),
+		TextDark = Color3.fromRGB(220, 180, 190)
+	},
+	["Aqua"] = {
+		Primary = Color3.fromRGB(0, 200, 200),
+		Highlight = Color3.fromRGB(0, 255, 255),
+		Accent = Color3.fromRGB(0, 150, 150),
+		Secondary = Color3.fromRGB(0, 170, 170),
+		Background = Color3.fromRGB(0, 130, 130),
+		Text = Color3.fromRGB(255, 255, 255),
+		TextDark = Color3.fromRGB(200, 230, 230)
+	},
+	["Lime"] = {
+		Primary = Color3.fromRGB(50, 205, 50),
+		Highlight = Color3.fromRGB(100, 255, 100),
+		Accent = Color3.fromRGB(30, 150, 30),
+		Secondary = Color3.fromRGB(40, 180, 40),
+		Background = Color3.fromRGB(25, 130, 25),
+		Text = Color3.fromRGB(220, 255, 220),
+		TextDark = Color3.fromRGB(180, 220, 180)
+	},
+	["Amber"] = {
+		Primary = Color3.fromRGB(255, 191, 0),
+		Highlight = Color3.fromRGB(255, 220, 0),
+		Accent = Color3.fromRGB(200, 150, 0),
+		Secondary = Color3.fromRGB(220, 170, 0),
+		Background = Color3.fromRGB(180, 130, 0),
+		Text = Color3.fromRGB(255, 255, 220),
+		TextDark = Color3.fromRGB(220, 220, 180)
+	},
+	["Indigo"] = {
+		Primary = Color3.fromRGB(75, 0, 130),
+		Highlight = Color3.fromRGB(100, 0, 180),
+		Accent = Color3.fromRGB(55, 0, 100),
+		Secondary = Color3.fromRGB(65, 0, 120),
+		Background = Color3.fromRGB(45, 0, 90),
+		Text = Color3.fromRGB(220, 200, 255),
+		TextDark = Color3.fromRGB(180, 160, 220)
+	},
+	["Graphite"] = {
+		Primary = Color3.fromRGB(100, 100, 100),
+		Highlight = Color3.fromRGB(130, 130, 130),
+		Accent = Color3.fromRGB(70, 70, 70),
+		Secondary = Color3.fromRGB(80, 80, 80),
+		Background = Color3.fromRGB(50, 50, 50),
+		Text = Color3.fromRGB(240, 240, 240),
+		TextDark = Color3.fromRGB(180, 180, 180)
 	}
 }
 
 local Icons = {
-	{"Home", "rbxassetid://10734884548"},
-	{"Settings", "rbxassetid://10734950309"},
-	{"User", "rbxassetid://10747374131"},
-	{"Users", "rbxassetid://10747374668"},
-	{"Shield", "rbxassetid://10734952273"},
-	{"Sword", "rbxassetid://10734961090"},
-	{"Crown", "rbxassetid://10734919336"},
-	{"Star", "rbxassetid://10734896629"},
-	{"Heart", "rbxassetid://10734919750"},
-	{"Book", "rbxassetid://10734886004"},
-	{"Briefcase", "rbxassetid://10734886559"},
-	{"Calendar", "rbxassetid://10734886815"},
-	{"Camera", "rbxassetid://10734886971"},
-	{"Code", "rbxassetid://10734918229"},
-	{"Zap", "rbxassetid://10747374401"},
-	{"Activity", "rbxassetid://10734883989"},
-	{"Airplay", "rbxassetid://10734884103"},
-	{"AlertCircle", "rbxassetid://10734884355"},
-	{"AlertTriangle", "rbxassetid://10734884551"},
-	{"Archive", "rbxassetid://10734884742"},
-	{"Award", "rbxassetid://10734885003"},
-	{"Bell", "rbxassetid://10734885266"},
-	{"Box", "rbxassetid://10734886314"},
-	{"Command", "rbxassetid://10734918568"},
-	{"Cpu", "rbxassetid://10734919088"},
-	{"Database", "rbxassetid://10734920149"},
-	{"Download", "rbxassetid://10734920526"},
-	{"Eye", "rbxassetid://10734921214"},
-	{"File", "rbxassetid://10734921595"},
-	{"Flag", "rbxassetid://10734921942"},
-	{"Gift", "rbxassetid://10734922026"},
-	{"Globe", "rbxassetid://10734922241"},
-	{"Grid", "rbxassetid://10734922491"},
-	{"Info", "rbxassetid://10734923214"},
-	{"Key", "rbxassetid://10734923549"},
-	{"Lock", "rbxassetid://10734924532"},
-	{"Mail", "rbxassetid://10734924844"},
-	{"Map", "rbxassetid://10734925272"},
-	{"Menu", "rbxassetid://10734925524"},
-	{"MessageCircle", "rbxassetid://10734925739"},
-	{"Package", "rbxassetid://10734949856"},
-	{"Pencil", "rbxassetid://10734950309"},
-	{"Play", "rbxassetid://10734950690"},
-	{"Plus", "rbxassetid://10734950837"},
-	{"Search", "rbxassetid://10734952273"},
-	{"Server", "rbxassetid://10734952529"},
-	{"Share", "rbxassetid://10734952692"},
-	{"ShoppingCart", "rbxassetid://10734952925"},
-	{"Shuffle", "rbxassetid://10734953146"},
-	{"Target", "rbxassetid://10734953353"},
-	{"Terminal", "rbxassetid://10734953505"},
-	{"Tool", "rbxassetid://10734953697"},
-	{"Trash", "rbxassetid://10734953864"},
-	{"TrendingUp", "rbxassetid://10734954095"},
-	{"Trophy", "rbxassetid://10734954216"},
-	{"Upload", "rbxassetid://10734954382"},
-	{"Wrench", "rbxassetid://10747373176"},
-	{"X", "rbxassetid://10734896547"},
-	{"Minimize", "rbxassetid://7733964640"},
-	{"DownArrow", "rbxassetid://10709791437"}
+	Home = "rbxassetid://10734884548",
+	Settings = "rbxassetid://10734950309",
+	User = "rbxassetid://10747374131",
+	Users = "rbxassetid://10747374668",
+	Shield = "rbxassetid://10734952273",
+	Sword = "rbxassetid://10734961090",
+	Crown = "rbxassetid://10734919336",
+	Star = "rbxassetid://10734896629",
+	Heart = "rbxassetid://10734919750",
+	Book = "rbxassetid://10734886004",
+	Briefcase = "rbxassetid://10734886559",
+	Calendar = "rbxassetid://10734886815",
+	Camera = "rbxassetid://10734886971",
+	Code = "rbxassetid://10734918229",
+	Zap = "rbxassetid://10747374401",
+	Activity = "rbxassetid://10734883989",
+	Airplay = "rbxassetid://10734884103",
+	AlertCircle = "rbxassetid://10734884355",
+	AlertTriangle = "rbxassetid://10734884551",
+	Archive = "rbxassetid://10734884742",
+	Award = "rbxassetid://10734885003",
+	Bell = "rbxassetid://10734885266",
+	Box = "rbxassetid://10734886314",
+	Command = "rbxassetid://10734918568",
+	Cpu = "rbxassetid://10734919088",
+	Database = "rbxassetid://10734920149",
+	Download = "rbxassetid://10734920526",
+	Eye = "rbxassetid://10734921214",
+	File = "rbxassetid://10734921595",
+	Flag = "rbxassetid://10734921942",
+	Gift = "rbxassetid://10734922026",
+	Globe = "rbxassetid://10734922241",
+	Grid = "rbxassetid://10734922491",
+	Info = "rbxassetid://10734923214",
+	Key = "rbxassetid://10734923549",
+	Lock = "rbxassetid://10734924532",
+	Mail = "rbxassetid://10734924844",
+	Map = "rbxassetid://10734925272",
+	Menu = "rbxassetid://10734925524",
+	MessageCircle = "rbxassetid://10734925739",
+	Package = "rbxassetid://10734949856",
+	Pencil = "rbxassetid://10734950309",
+	Play = "rbxassetid://10734950690",
+	Plus = "rbxassetid://10734950837",
+	Search = "rbxassetid://10734952273",
+	Server = "rbxassetid://10734952529",
+	Share = "rbxassetid://10734952692",
+	ShoppingCart = "rbxassetid://10734952925",
+	Shuffle = "rbxassetid://10734953146",
+	Target = "rbxassetid://10734953353",
+	Terminal = "rbxassetid://10734953505",
+	Tool = "rbxassetid://10734953697",
+	Trash = "rbxassetid://10734953864",
+	TrendingUp = "rbxassetid://10734954095",
+	Trophy = "rbxassetid://10734954216",
+	Upload = "rbxassetid://10734954382",
+	Wrench = "rbxassetid://10747373176",
+	X = "rbxassetid://10734896547",
+	Minimize = "rbxassetid://7733964640",
+	DownArrow = "rbxassetid://10709791437"
 }
 
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 
 local isMobile = UserInputService.TouchEnabled and not UserInputService.MouseEnabled
-
-local function GetIcon(name)
-	for _, v in ipairs(Icons) do
-		if v[1] == name then
-			return v[2]
-		end
-	end
-	return ""
-end
 
 local function Tween(object, properties, duration)
 	local tweenInfo = TweenInfo.new(duration or 0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
@@ -380,7 +425,7 @@ function CrimsonUI:CreateWindow(config)
 	MinimizeIcon.Name = "Icon"
 	MinimizeIcon.BackgroundTransparency = 1
 	MinimizeIcon.Size = UDim2.new(1, 0, 1, 0)
-	MinimizeIcon.Image = GetIcon("Minimize")
+	MinimizeIcon.Image = Icons.Minimize
 	MinimizeIcon.ImageColor3 = Colors.TextDark
 	MinimizeIcon.Parent = MinimizeButton
 
@@ -481,7 +526,7 @@ function CrimsonUI:CreateWindow(config)
 	function Window:CreateTab(config)
 		local tabConfig = {
 			Name = config.Name or "Tab",
-			Icon = config.Icon or GetIcon("Home")
+			Icon = config.Icon or Icons.Home
 		}
 
 		local TabButton = Instance.new("TextButton")
@@ -985,7 +1030,7 @@ function CrimsonUI:CreateWindow(config)
 			DropdownIcon.BackgroundTransparency = 1
 			DropdownIcon.Position = UDim2.new(1, -22, 0.5, -8)
 			DropdownIcon.Size = UDim2.new(0, 16, 0, 16)
-			DropdownIcon.Image = GetIcon("DownArrow")
+			DropdownIcon.Image = Icons.DownArrow
 			DropdownIcon.ImageColor3 = Colors.TextDark
 			DropdownIcon.Parent = DropdownButton
 
@@ -1459,7 +1504,7 @@ function CrimsonUI:Notify(config)
 		Title = config.Title or "Notification",
 		Content = config.Content or "This is a notification",
 		Duration = config.Duration or 5,
-		Image = config.Image or GetIcon("Bell")
+		Image = config.Image or Icons.Bell
 	}
 
 	local ScreenGui = game:GetService("CoreGui"):FindFirstChild("CrimsonUI_Notifications")
