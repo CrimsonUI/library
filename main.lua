@@ -1,14 +1,14 @@
 local CrimsonUI = {}
 
 local Colors = {
-    Background = Color3.fromRGB(77, 71, 79),
-    Secondary = Color3.fromRGB(40, 47, 50),
-    Accent = Color3.fromRGB(55, 18, 17),
-    Primary = Color3.fromRGB(125, 20, 22),
-    Highlight = Color3.fromRGB(192, 25, 31),
-    Bright = Color3.fromRGB(229, 30, 27),
-    Text = Color3.fromRGB(255, 255, 255),
-    TextDark = Color3.fromRGB(200, 200, 200)
+    Background     = Color3.fromRGB(30, 30, 36),
+    Secondary      = Color3.fromRGB(40, 40, 46),
+    Accent         = Color3.fromRGB(65, 20, 30),
+    Primary        = Color3.fromRGB(180, 25, 45),
+    Highlight      = Color3.fromRGB(220, 35, 55),
+    Bright         = Color3.fromRGB(255, 50, 70),
+    Text           = Color3.fromRGB(245, 245, 245),
+    TextDark       = Color3.fromRGB(180, 180, 180)
 }
 
 local Icons = {
@@ -69,11 +69,15 @@ local Icons = {
     Trophy = "rbxassetid://10734954216",
     Upload = "rbxassetid://10734954382",
     Wrench = "rbxassetid://10747373176",
-    X = "rbxassetid://10734896547"
+    X = "rbxassetid://10734896547",
+    Minimize = "rbxassetid://7733964640"
 }
 
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+
+local isMobile = UserInputService.TouchEnabled and not UserInputService.MouseEnabled
 
 local function Tween(object, properties, duration)
     local tweenInfo = TweenInfo.new(duration or 0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
@@ -88,14 +92,73 @@ local function CreateGlow(parent)
     glow.BackgroundTransparency = 1
     glow.Image = "rbxassetid://5028857084"
     glow.ImageColor3 = Colors.Highlight
-    glow.ImageTransparency = 0.8
+    glow.ImageTransparency = 0.75
     glow.ScaleType = Enum.ScaleType.Slice
     glow.SliceCenter = Rect.new(24, 24, 276, 276)
-    glow.Size = UDim2.new(1, 20, 1, 20)
-    glow.Position = UDim2.new(0, -10, 0, -10)
+    glow.Size = UDim2.new(1, 24, 1, 24)
+    glow.Position = UDim2.new(0, -12, 0, -12)
     glow.ZIndex = 0
     glow.Parent = parent
     return glow
+end
+
+local function CreateLoadingScreen(parent, config)
+    local LoadingFrame = Instance.new("Frame")
+    LoadingFrame.Name = "LoadingScreen"
+    LoadingFrame.BackgroundColor3 = Colors.Background
+    LoadingFrame.Size = UDim2.new(1, 0, 1, 0)
+    LoadingFrame.ZIndex = 100
+    LoadingFrame.Parent = parent
+
+    local LoadingCorner = Instance.new("UICorner")
+    LoadingCorner.CornerRadius = UDim.new(0, 12)
+    LoadingCorner.Parent = LoadingFrame
+
+    local Title = Instance.new("TextLabel")
+    Title.BackgroundTransparency = 1
+    Title.Position = UDim2.new(0.5, 0, 0.4, 0)
+    Title.AnchorPoint = Vector2.new(0.5, 0.5)
+    Title.Size = UDim2.new(0.8, 0, 0, 40)
+    Title.Font = Enum.Font.GothamBold
+    Title.Text = config.LoadingTitle or "Crimson UI"
+    Title.TextColor3 = Colors.Text
+    Title.TextSize = 28
+    Title.Parent = LoadingFrame
+
+    local Subtitle = Instance.new("TextLabel")
+    Subtitle.BackgroundTransparency = 1
+    Subtitle.Position = UDim2.new(0.5, 0, 0.5, 0)
+    Subtitle.AnchorPoint = Vector2.new(0.5, 0.5)
+    Subtitle.Size = UDim2.new(0.8, 0, 0, 20)
+    Subtitle.Font = Enum.Font.Gotham
+    Subtitle.Text = config.LoadingSubtitle or "by Luca Davincci"
+    Subtitle.TextColor3 = Colors.TextDark
+    Subtitle.TextSize = 16
+    Subtitle.Parent = LoadingFrame
+
+    local Spinner = Instance.new("ImageLabel")
+    Spinner.BackgroundTransparency = 1
+    Spinner.Position = UDim2.new(0.5, 0, 0.6, 0)
+    Spinner.AnchorPoint = Vector2.new(0.5, 0.5)
+    Spinner.Size = UDim2.new(0, 48, 0, 48)
+    Spinner.Image = "rbxassetid://6031097225"
+    Spinner.ImageColor3 = Colors.Highlight
+    Spinner.Parent = LoadingFrame
+
+    local spinTween = TweenService:Create(Spinner, TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1), {Rotation = 360})
+    spinTween:Play()
+
+    return {
+        Hide = function()
+            Tween(LoadingFrame, {BackgroundTransparency = 1}, 0.4)
+            Tween(Title, {TextTransparency = 1}, 0.4)
+            Tween(Subtitle, {TextTransparency = 1}, 0.4)
+            Tween(Spinner, {ImageTransparency = 1}, 0.4)
+            task.delay(0.5, function()
+                LoadingFrame:Destroy()
+            end)
+        end
+    }
 end
 
 function CrimsonUI:CreateWindow(config)
@@ -119,6 +182,7 @@ function CrimsonUI:CreateWindow(config)
     MainFrame.Position = UDim2.new(0.5, -300, 0.5, -200)
     MainFrame.Size = UDim2.new(0, 0, 0, 0)
     MainFrame.ClipsDescendants = true
+    MainFrame.Visible = false
     MainFrame.Parent = ScreenGui
 
     local MainCorner = Instance.new("UICorner")
@@ -126,6 +190,11 @@ function CrimsonUI:CreateWindow(config)
     MainCorner.Parent = MainFrame
 
     CreateGlow(MainFrame)
+
+    local loadingScreen
+    if windowConfig.LoadingEnabled then
+        loadingScreen = CreateLoadingScreen(ScreenGui, windowConfig)
+    end
 
     local TopBar = Instance.new("Frame")
     TopBar.Name = "TopBar"
@@ -157,21 +226,22 @@ function CrimsonUI:CreateWindow(config)
     Title.TextXAlignment = Enum.TextXAlignment.Left
     Title.Parent = TopBar
 
-    local CloseButton = Instance.new("TextButton")
-    CloseButton.Name = "CloseButton"
-    CloseButton.BackgroundTransparency = 1
-    CloseButton.Position = UDim2.new(1, -40, 0.5, -12)
-    CloseButton.Size = UDim2.new(0, 24, 0, 24)
-    CloseButton.Text = ""
-    CloseButton.Parent = TopBar
+    local MinimizeButton = Instance.new("TextButton")
+    MinimizeButton.Name = "MinimizeButton"
+    MinimizeButton.BackgroundTransparency = 1
+    MinimizeButton.Position = UDim2.new(1, -50, 0.5, -14)
+    MinimizeButton.Size = UDim2.new(0, 28, 0, 28)
+    MinimizeButton.Text = ""
+    MinimizeButton.ZIndex = 10
+    MinimizeButton.Parent = TopBar
 
-    local CloseIcon = Instance.new("ImageLabel")
-    CloseIcon.Name = "Icon"
-    CloseIcon.BackgroundTransparency = 1
-    CloseIcon.Size = UDim2.new(1, 0, 1, 0)
-    CloseIcon.Image = Icons.X
-    CloseIcon.ImageColor3 = Colors.TextDark
-    CloseIcon.Parent = CloseButton
+    local MinimizeIcon = Instance.new("ImageLabel")
+    MinimizeIcon.Name = "Icon"
+    MinimizeIcon.BackgroundTransparency = 1
+    MinimizeIcon.Size = UDim2.new(1, 0, 1, 0)
+    MinimizeIcon.Image = Icons.Minimize
+    MinimizeIcon.ImageColor3 = Colors.TextDark
+    MinimizeIcon.Parent = MinimizeButton
 
     local TabContainer = Instance.new("Frame")
     TabContainer.Name = "TabContainer"
@@ -214,11 +284,10 @@ function CrimsonUI:CreateWindow(config)
     end
 
     TopBar.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or (isMobile and input.UserInputType == Enum.UserInputType.Touch) then
             dragging = true
             dragStart = input.Position
             startPos = MainFrame.Position
-            
             input.Changed:Connect(function()
                 if input.UserInputState == Enum.UserInputState.End then
                     dragging = false
@@ -228,7 +297,7 @@ function CrimsonUI:CreateWindow(config)
     end)
 
     TopBar.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement then
+        if input.UserInputType == Enum.UserInputType.MouseMovement or (isMobile and input.UserInputType == Enum.UserInputType.Touch) then
             dragInput = input
         end
     end)
@@ -239,19 +308,24 @@ function CrimsonUI:CreateWindow(config)
         end
     end)
 
-    CloseButton.MouseButton1Click:Connect(function()
-        Tween(CloseIcon, {ImageColor3 = Colors.Highlight}, 0.2)
-        Tween(MainFrame, {Size = UDim2.new(0, 0, 0, 0)}, 0.3)
-        wait(0.3)
-        ScreenGui:Destroy()
+    local minimized = false
+    MinimizeButton.MouseButton1Click:Connect(function()
+        minimized = not minimized
+        if minimized then
+            Tween(MainFrame, {Size = UDim2.new(0, 600, 0, 45)}, 0.3)
+            Tween(MinimizeIcon, {Rotation = 180}, 0.3)
+        else
+            Tween(MainFrame, {Size = UDim2.new(0, 600, 0, 400)}, 0.3)
+            Tween(MinimizeIcon, {Rotation = 0}, 0.3)
+        end
     end)
 
-    CloseButton.MouseEnter:Connect(function()
-        Tween(CloseIcon, {ImageColor3 = Colors.Highlight}, 0.2)
+    MinimizeButton.MouseEnter:Connect(function()
+        Tween(MinimizeIcon, {ImageColor3 = Colors.Highlight}, 0.2)
     end)
 
-    CloseButton.MouseLeave:Connect(function()
-        Tween(CloseIcon, {ImageColor3 = Colors.TextDark}, 0.2)
+    MinimizeButton.MouseLeave:Connect(function()
+        Tween(MinimizeIcon, {ImageColor3 = Colors.TextDark}, 0.2)
     end)
 
     TabListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
@@ -277,6 +351,10 @@ function CrimsonUI:CreateWindow(config)
         TabButton.AutoButtonColor = false
         TabButton.Text = ""
         TabButton.Parent = TabList
+
+        if isMobile then
+            TabButton.Size = UDim2.new(0, 120, 0, 50)
+        end
 
         local TabCorner = Instance.new("UICorner")
         TabCorner.CornerRadius = UDim.new(0, 8)
@@ -345,7 +423,7 @@ function CrimsonUI:CreateWindow(config)
                 if icon then Tween(icon, {ImageColor3 = Colors.TextDark}, 0.2) end
                 if label then Tween(label, {TextColor3 = Colors.TextDark}, 0.2) end
             end
-            
+
             TabContent.Visible = true
             Tween(TabButton, {BackgroundColor3 = Colors.Primary}, 0.2)
             Tween(TabIcon, {ImageColor3 = Colors.Text}, 0.2)
@@ -374,12 +452,20 @@ function CrimsonUI:CreateWindow(config)
             local ButtonFrame = Instance.new("Frame")
             ButtonFrame.BackgroundColor3 = Colors.Secondary
             ButtonFrame.BorderSizePixel = 0
-            ButtonFrame.Size = UDim2.new(1, 0, 0, 38)
+            ButtonFrame.Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)
             ButtonFrame.Parent = TabContent
 
             local ButtonCorner = Instance.new("UICorner")
             ButtonCorner.CornerRadius = UDim.new(0, 8)
             ButtonCorner.Parent = ButtonFrame
+
+            local Hitbox = Instance.new("TextButton")
+            Hitbox.BackgroundTransparency = 1
+            Hitbox.Size = UDim2.new(1, isMobile and 20 or 0, 1, isMobile and 20 or 0)
+            Hitbox.Position = UDim2.new(0, isMobile and -10 or 0, 0, isMobile and -10 or 0)
+            Hitbox.Text = ""
+            Hitbox.ZIndex = 2
+            Hitbox.Parent = ButtonFrame
 
             local Button = Instance.new("TextButton")
             Button.BackgroundTransparency = 1
@@ -390,18 +476,19 @@ function CrimsonUI:CreateWindow(config)
             Button.TextSize = 13
             Button.Parent = ButtonFrame
 
-            Button.MouseButton1Click:Connect(function()
+            Hitbox.MouseButton1Click:Connect(function()
                 Tween(ButtonFrame, {BackgroundColor3 = Colors.Highlight}, 0.1)
-                wait(0.1)
-                Tween(ButtonFrame, {BackgroundColor3 = Colors.Secondary}, 0.1)
+                task.delay(0.1, function()
+                    Tween(ButtonFrame, {BackgroundColor3 = Colors.Secondary}, 0.1)
+                end)
                 buttonConfig.Callback()
             end)
 
-            Button.MouseEnter:Connect(function()
+            ButtonFrame.MouseEnter:Connect(function()
                 Tween(ButtonFrame, {BackgroundColor3 = Colors.Accent}, 0.2)
             end)
 
-            Button.MouseLeave:Connect(function()
+            ButtonFrame.MouseLeave:Connect(function()
                 Tween(ButtonFrame, {BackgroundColor3 = Colors.Secondary}, 0.2)
             end)
 
@@ -418,12 +505,20 @@ function CrimsonUI:CreateWindow(config)
             local ToggleFrame = Instance.new("Frame")
             ToggleFrame.BackgroundColor3 = Colors.Secondary
             ToggleFrame.BorderSizePixel = 0
-            ToggleFrame.Size = UDim2.new(1, 0, 0, 38)
+            ToggleFrame.Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)
             ToggleFrame.Parent = TabContent
 
             local ToggleCorner = Instance.new("UICorner")
             ToggleCorner.CornerRadius = UDim.new(0, 8)
             ToggleCorner.Parent = ToggleFrame
+
+            local Hitbox = Instance.new("TextButton")
+            Hitbox.BackgroundTransparency = 1
+            Hitbox.Size = UDim2.new(1, isMobile and 20 or 0, 1, isMobile and 20 or 0)
+            Hitbox.Position = UDim2.new(0, isMobile and -10 or 0, 0, isMobile and -10 or 0)
+            Hitbox.Text = ""
+            Hitbox.ZIndex = 2
+            Hitbox.Parent = ToggleFrame
 
             local ToggleLabel = Instance.new("TextLabel")
             ToggleLabel.BackgroundTransparency = 1
@@ -460,9 +555,8 @@ function CrimsonUI:CreateWindow(config)
             CircleCorner.CornerRadius = UDim.new(1, 0)
             CircleCorner.Parent = ToggleCircle
 
-            ToggleButton.MouseButton1Click:Connect(function()
+            Hitbox.MouseButton1Click:Connect(function()
                 toggleConfig.CurrentValue = not toggleConfig.CurrentValue
-                
                 if toggleConfig.CurrentValue then
                     Tween(ToggleButton, {BackgroundColor3 = Colors.Highlight}, 0.2)
                     Tween(ToggleCircle, {Position = UDim2.new(1, -20, 0.5, -9)}, 0.2)
@@ -470,7 +564,6 @@ function CrimsonUI:CreateWindow(config)
                     Tween(ToggleButton, {BackgroundColor3 = Colors.Background}, 0.2)
                     Tween(ToggleCircle, {Position = UDim2.new(0, 2, 0.5, -9)}, 0.2)
                 end
-                
                 toggleConfig.Callback(toggleConfig.CurrentValue)
             end)
 
@@ -508,12 +601,20 @@ function CrimsonUI:CreateWindow(config)
             local SliderFrame = Instance.new("Frame")
             SliderFrame.BackgroundColor3 = Colors.Secondary
             SliderFrame.BorderSizePixel = 0
-            SliderFrame.Size = UDim2.new(1, 0, 0, 54)
+            SliderFrame.Size = UDim2.new(1, 0, 0, isMobile and 70 or 54)
             SliderFrame.Parent = TabContent
 
             local SliderCorner = Instance.new("UICorner")
             SliderCorner.CornerRadius = UDim.new(0, 8)
             SliderCorner.Parent = SliderFrame
+
+            local Hitbox = Instance.new("TextButton")
+            Hitbox.BackgroundTransparency = 1
+            Hitbox.Size = UDim2.new(1, isMobile and 20 or 0, 1, isMobile and 20 or 0)
+            Hitbox.Position = UDim2.new(0, isMobile and -10 or 0, 0, isMobile and -10 or 0)
+            Hitbox.Text = ""
+            Hitbox.ZIndex = 2
+            Hitbox.Parent = SliderFrame
 
             local SliderLabel = Instance.new("TextLabel")
             SliderLabel.BackgroundTransparency = 1
@@ -540,7 +641,7 @@ function CrimsonUI:CreateWindow(config)
             local SliderBackground = Instance.new("Frame")
             SliderBackground.BackgroundColor3 = Colors.Background
             SliderBackground.BorderSizePixel = 0
-            SliderBackground.Position = UDim2.new(0, 12, 0, 32)
+            SliderBackground.Position = UDim2.new(0, 12, 0, isMobile and 40 or 32)
             SliderBackground.Size = UDim2.new(1, -24, 0, 6)
             SliderBackground.Parent = SliderFrame
 
@@ -558,45 +659,35 @@ function CrimsonUI:CreateWindow(config)
             SliderFillCorner.CornerRadius = UDim.new(1, 0)
             SliderFillCorner.Parent = SliderFill
 
-            local SliderButton = Instance.new("TextButton")
-            SliderButton.BackgroundTransparency = 1
-            SliderButton.Size = UDim2.new(1, 0, 1, 0)
-            SliderButton.Text = ""
-            SliderButton.Parent = SliderBackground
-
             local dragging = false
 
             local function updateSlider(input)
                 local pos = math.clamp((input.Position.X - SliderBackground.AbsolutePosition.X) / SliderBackground.AbsoluteSize.X, 0, 1)
                 local value = math.floor(((pos * (sliderConfig.Range[2] - sliderConfig.Range[1]) + sliderConfig.Range[1]) / sliderConfig.Increment + 0.5)) * sliderConfig.Increment
                 value = math.clamp(value, sliderConfig.Range[1], sliderConfig.Range[2])
-                
                 sliderConfig.CurrentValue = value
                 SliderValue.Text = tostring(value)
-                
                 Tween(SliderFill, {Size = UDim2.new(pos, 0, 1, 0)}, 0.1)
                 sliderConfig.Callback(value)
             end
 
-            SliderButton.MouseButton1Down:Connect(function()
-                dragging = true
-            end)
-
-            UserInputService.InputEnded:Connect(function(input)
-                if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                    dragging = false
-                end
-            end)
-
-            UserInputService.InputChanged:Connect(function(input)
-                if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            Hitbox.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 or (isMobile and input.UserInputType == Enum.UserInputType.Touch) then
+                    dragging = true
                     updateSlider(input)
                 end
             end)
 
-            SliderButton.MouseButton1Click:Connect(function()
-                local mousePos = UserInputService:GetMouseLocation()
-                updateSlider({Position = Vector2.new(mousePos.X, mousePos.Y)})
+            Hitbox.InputChanged:Connect(function(input)
+                if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or (isMobile and input.UserInputType == Enum.UserInputType.Touch)) then
+                    updateSlider(input)
+                end
+            end)
+
+            UserInputService.InputEnded:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 or (isMobile and input.UserInputType == Enum.UserInputType.Touch) then
+                    dragging = false
+                end
             end)
 
             SliderFrame.MouseEnter:Connect(function()
@@ -629,12 +720,20 @@ function CrimsonUI:CreateWindow(config)
             local InputFrame = Instance.new("Frame")
             InputFrame.BackgroundColor3 = Colors.Secondary
             InputFrame.BorderSizePixel = 0
-            InputFrame.Size = UDim2.new(1, 0, 0, 64)
+            InputFrame.Size = UDim2.new(1, 0, 0, isMobile and 80 or 64)
             InputFrame.Parent = TabContent
 
             local InputCorner = Instance.new("UICorner")
             InputCorner.CornerRadius = UDim.new(0, 8)
             InputCorner.Parent = InputFrame
+
+            local Hitbox = Instance.new("TextButton")
+            Hitbox.BackgroundTransparency = 1
+            Hitbox.Size = UDim2.new(1, isMobile and 20 or 0, 1, isMobile and 20 or 0)
+            Hitbox.Position = UDim2.new(0, isMobile and -10 or 0, 0, isMobile and -10 or 0)
+            Hitbox.Text = ""
+            Hitbox.ZIndex = 2
+            Hitbox.Parent = InputFrame
 
             local InputLabel = Instance.new("TextLabel")
             InputLabel.BackgroundTransparency = 1
@@ -650,8 +749,8 @@ function CrimsonUI:CreateWindow(config)
             local InputBox = Instance.new("TextBox")
             InputBox.BackgroundColor3 = Colors.Background
             InputBox.BorderSizePixel = 0
-            InputBox.Position = UDim2.new(0, 12, 0, 32)
-            InputBox.Size = UDim2.new(1, -24, 0, 26)
+            InputBox.Position = UDim2.new(0, 12, 0, isMobile and 40 or 32)
+            InputBox.Size = UDim2.new(1, -24, 0, isMobile and 32 or 26)
             InputBox.Font = Enum.Font.Gotham
             InputBox.PlaceholderText = inputConfig.PlaceholderText
             InputBox.PlaceholderColor3 = Colors.TextDark
@@ -706,13 +805,21 @@ function CrimsonUI:CreateWindow(config)
             local DropdownFrame = Instance.new("Frame")
             DropdownFrame.BackgroundColor3 = Colors.Secondary
             DropdownFrame.BorderSizePixel = 0
-            DropdownFrame.Size = UDim2.new(1, 0, 0, 38)
+            DropdownFrame.Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)
             DropdownFrame.ClipsDescendants = true
             DropdownFrame.Parent = TabContent
 
             local DropdownCorner = Instance.new("UICorner")
             DropdownCorner.CornerRadius = UDim.new(0, 8)
             DropdownCorner.Parent = DropdownFrame
+
+            local Hitbox = Instance.new("TextButton")
+            Hitbox.BackgroundTransparency = 1
+            Hitbox.Size = UDim2.new(1, isMobile and 20 or 0, 1, isMobile and 20 or 0)
+            Hitbox.Position = UDim2.new(0, isMobile and -10 or 0, 0, isMobile and -10 or 0)
+            Hitbox.Text = ""
+            Hitbox.ZIndex = 2
+            Hitbox.Parent = DropdownFrame
 
             local DropdownLabel = Instance.new("TextLabel")
             DropdownLabel.BackgroundTransparency = 1
@@ -747,7 +854,7 @@ function CrimsonUI:CreateWindow(config)
             DropdownIcon.Position = UDim2.new(1, -20, 0.5, -8)
             DropdownIcon.Size = UDim2.new(0, 16, 0, 16)
             DropdownIcon.Font = Enum.Font.GothamBold
-            DropdownIcon.Text = "▼"
+            DropdownIcon.Text = "Down Arrow"
             DropdownIcon.TextColor3 = Colors.Highlight
             DropdownIcon.TextSize = 10
             DropdownIcon.Parent = DropdownButton
@@ -785,9 +892,8 @@ function CrimsonUI:CreateWindow(config)
                     dropdownConfig.CurrentOption = option
                     DropdownButton.Text = "  " .. option
                     dropdownConfig.Callback(option)
-                    
                     isOpen = false
-                    Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, 38)}, 0.3)
+                    Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)}, 0.3)
                     Tween(DropdownIcon, {Rotation = 0}, 0.3)
                 end)
 
@@ -804,20 +910,20 @@ function CrimsonUI:CreateWindow(config)
                 DropdownList.Size = UDim2.new(1, -16, 0, ListLayout.AbsoluteContentSize.Y)
             end)
 
-            DropdownButton.MouseButton1Click:Connect(function()
+            Hitbox.MouseButton1Click:Connect(function()
                 isOpen = not isOpen
                 if isOpen then
-                    local targetSize = 46 + ListLayout.AbsoluteContentSize.Y
+                    local targetSize = (isMobile and 54 or 46) + ListLayout.AbsoluteContentSize.Y
                     Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, targetSize)}, 0.3)
                     Tween(DropdownIcon, {Rotation = 180}, 0.3)
                 else
-                    Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, 38)}, 0.3)
+                    Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)}, 0.3)
                     Tween(DropdownIcon, {Rotation = 0}, 0.3)
                 end
             end)
 
             DropdownButton.MouseEnter:Connect(function()
-                Tween(DropdownButton, {BackgroundColor3 = Colors.Accent}, 0.2)
+                Tween(DropdownButton, {BackgroundColor3 = Colors in Colors.Accent}, 0.2)
             end)
 
             DropdownButton.MouseLeave:Connect(function()
@@ -842,12 +948,20 @@ function CrimsonUI:CreateWindow(config)
             local ColorFrame = Instance.new("Frame")
             ColorFrame.BackgroundColor3 = Colors.Secondary
             ColorFrame.BorderSizePixel = 0
-            ColorFrame.Size = UDim2.new(1, 0, 0, 38)
+            ColorFrame.Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)
             ColorFrame.Parent = TabContent
 
             local ColorCorner = Instance.new("UICorner")
             ColorCorner.CornerRadius = UDim.new(0, 8)
             ColorCorner.Parent = ColorFrame
+
+            local Hitbox = Instance.new("TextButton")
+            Hitbox.BackgroundTransparency = 1
+            Hitbox.Size = UDim2.new(1, isMobile and 20 or 0, 1, isMobile and 20 or 0)
+            Hitbox.Position = UDim2.new(0, isMobile and -10 or 0, 0, isMobile and -10 or 0)
+            Hitbox.Text = ""
+            Hitbox.ZIndex = 2
+            Hitbox.Parent = ColorFrame
 
             local ColorLabel = Instance.new("TextLabel")
             ColorLabel.BackgroundTransparency = 1
@@ -871,13 +985,7 @@ function CrimsonUI:CreateWindow(config)
             ColorDisplayCorner.CornerRadius = UDim.new(0, 6)
             ColorDisplayCorner.Parent = ColorDisplay
 
-            local ColorButton = Instance.new("TextButton")
-            ColorButton.BackgroundTransparency = 1
-            ColorButton.Size = UDim2.new(1, 0, 1, 0)
-            ColorButton.Text = ""
-            ColorButton.Parent = ColorDisplay
-
-            ColorButton.MouseButton1Click:Connect(function()
+            Hitbox.MouseButton1Click:Connect(function()
                 colorConfig.Callback(colorConfig.Color)
             end)
 
@@ -901,7 +1009,7 @@ function CrimsonUI:CreateWindow(config)
             local LabelFrame = Instance.new("Frame")
             LabelFrame.BackgroundColor3 = Colors.Secondary
             LabelFrame.BorderSizePixel = 0
-            LabelFrame.Size = UDim2.new(1, 0, 0, 32)
+            LabelFrame.Size = UDim2.new(1, 0, 0, isMobile and 48 or 32)
             LabelFrame.Parent = TabContent
 
             local LabelCorner = Instance.new("UICorner")
@@ -933,7 +1041,7 @@ function CrimsonUI:CreateWindow(config)
             local ParagraphFrame = Instance.new("Frame")
             ParagraphFrame.BackgroundColor3 = Colors.Secondary
             ParagraphFrame.BorderSizePixel = 0
-            ParagraphFrame.Size = UDim2.new(1, 0, 0, 70)
+            ParagraphFrame.Size = UDim2.new(1, 0, 0, isMobile and 90 or 70)
             ParagraphFrame.Parent = TabContent
 
             local ParagraphCorner = Instance.new("UICorner")
@@ -984,12 +1092,20 @@ function CrimsonUI:CreateWindow(config)
             local KeybindFrame = Instance.new("Frame")
             KeybindFrame.BackgroundColor3 = Colors.Secondary
             KeybindFrame.BorderSizePixel = 0
-            KeybindFrame.Size = UDim2.new(1, 0, 0, 38)
+            KeybindFrame.Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)
             KeybindFrame.Parent = TabContent
 
             local KeybindCorner = Instance.new("UICorner")
             KeybindCorner.CornerRadius = UDim.new(0, 8)
             KeybindCorner.Parent = KeybindFrame
+
+            local Hitbox = Instance.new("TextButton")
+            Hitbox.BackgroundTransparency = 1
+            Hitbox.Size = UDim2.new(1, isMobile and 20 or 0, 1, isMobile and 20 or 0)
+            Hitbox.Position = UDim2.new(0, isMobile and -10 or 0, 0, isMobile and -10 or 0)
+            Hitbox.Text = ""
+            Hitbox.ZIndex = 2
+            Hitbox.Parent = KeybindFrame
 
             local KeybindLabel = Instance.new("TextLabel")
             KeybindLabel.BackgroundTransparency = 1
@@ -1020,7 +1136,7 @@ function CrimsonUI:CreateWindow(config)
 
             local waitingForKey = false
 
-            KeybindButton.MouseButton1Click:Connect(function()
+            Hitbox.MouseButton1Click:Connect(function()
                 waitingForKey = true
                 KeybindButton.Text = "..."
                 Tween(KeybindButton, {BackgroundColor3 = Colors.Highlight}, 0.2)
@@ -1036,7 +1152,7 @@ function CrimsonUI:CreateWindow(config)
                         Tween(KeybindButton, {BackgroundColor3 = Colors.Background}, 0.2)
                     end
                 end
-                
+
                 if not gameProcessed and input.KeyCode.Name == keybindConfig.CurrentKeybind then
                     if keybindConfig.HoldToInteract then
                         keybindConfig.Callback(true)
@@ -1106,20 +1222,23 @@ function CrimsonUI:CreateWindow(config)
             Tween(TabIcon, {ImageColor3 = Colors.Text}, 0.2)
             Tween(TabLabel, {TextColor3 = Colors.Text}, 0.2)
             Window.CurrentTab = Tab
+
+            if loadingScreen then
+                task.delay(0.5, loadingScreen.Hide)
+            end
+            MainFrame.Visible = true
+            Tween(MainFrame, {Size = UDim2.new(0, 600, 0, 400)}, 0.5)
         end
 
         return Tab
     end
 
-    Tween(MainFrame, {Size = UDim2.new(0, 600, 0, 400)}, 0.5)
-
     return Window
 end
 
 function CrimsonUI:Destroy()
-    if game:GetService("CoreGui"):FindFirstChild("CrimsonUI") then
-        game:GetService("CoreGui"):FindFirstChild("CrimsonUI"):Destroy()
-    end
+    local gui = game:GetService("CoreGui"):FindFirstChild("CrimsonUI")
+    if gui then gui:Destroy() end
 end
 
 function CrimsonUI:Notify(config)
