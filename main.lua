@@ -758,14 +758,6 @@ function CrimsonUI:CreateWindow(config)
 			InputCorner.CornerRadius = UDim.new(0, 8)
 			InputCorner.Parent = InputFrame
 
-			local Hitbox = Instance.new("TextButton")
-			Hitbox.BackgroundTransparency = 1
-			Hitbox.Size = UDim2.new(1, isMobile and 20 or 0, 1, isMobile and 20 or 0)
-			Hitbox.Position = UDim2.new(0, isMobile and -10 or 0, 0, isMobile and -10 or 0)
-			Hitbox.Text = ""
-			Hitbox.ZIndex = 2
-			Hitbox.Parent = InputFrame
-
 			local InputLabel = Instance.new("TextLabel")
 			InputLabel.BackgroundTransparency = 1
 			InputLabel.Position = UDim2.new(0, 12, 0, 8)
@@ -789,6 +781,7 @@ function CrimsonUI:CreateWindow(config)
 			InputBox.TextColor3 = Colors.Text
 			InputBox.TextSize = 13
 			InputBox.TextXAlignment = Enum.TextXAlignment.Left
+			InputBox.ClearTextOnFocus = false
 			InputBox.Parent = InputFrame
 
 			local InputBoxCorner = Instance.new("UICorner")
@@ -844,14 +837,6 @@ function CrimsonUI:CreateWindow(config)
 			DropdownCorner.CornerRadius = UDim.new(0, 8)
 			DropdownCorner.Parent = DropdownFrame
 
-			local Hitbox = Instance.new("TextButton")
-			Hitbox.BackgroundTransparency = 1
-			Hitbox.Size = UDim2.new(1, isMobile and 20 or 0, 1, isMobile and 20 or 0)
-			Hitbox.Position = UDim2.new(0, isMobile and -10 or 0, 0, isMobile and -10 or 0)
-			Hitbox.Text = ""
-			Hitbox.ZIndex = 2
-			Hitbox.Parent = DropdownFrame
-
 			local DropdownLabel = Instance.new("TextLabel")
 			DropdownLabel.BackgroundTransparency = 1
 			DropdownLabel.Position = UDim2.new(0, 12, 0, 0)
@@ -880,6 +865,10 @@ function CrimsonUI:CreateWindow(config)
 			DropdownButtonCorner.CornerRadius = UDim.new(0, 6)
 			DropdownButtonCorner.Parent = DropdownButton
 
+			local DropdownButtonPadding = Instance.new("UIPadding")
+			DropdownButtonPadding.PaddingLeft = UDim.new(0, 8)
+			DropdownButtonPadding.Parent = DropdownButton
+
 			local DropdownIcon = Instance.new("ImageLabel")
 			DropdownIcon.BackgroundTransparency = 1
 			DropdownIcon.Position = UDim2.new(1, -22, 0.5, -8)
@@ -888,29 +877,52 @@ function CrimsonUI:CreateWindow(config)
 			DropdownIcon.ImageColor3 = Colors.TextDark
 			DropdownIcon.Parent = DropdownButton
 
-			local DropdownList = Instance.new("Frame")
-			DropdownList.BackgroundTransparency = 1
-			DropdownList.Position = UDim2.new(0.5, 4, 1, 4)
+			-- Dropdown List (now positioned absolutely below the button)
+			local DropdownList = Instance.new("ScrollingFrame")
+			DropdownList.Name = "List"
+			DropdownList.BackgroundColor3 = Colors.Background
+			DropdownList.BorderSizePixel = 0
 			DropdownList.Size = UDim2.new(0.5, -16, 0, 0)
-			DropdownList.Parent = DropdownFrame
+			DropdownList.CanvasSize = UDim2.new(0, 0, 0, 0)
+			DropdownList.ScrollBarThickness = 2
+			DropdownList.ScrollBarImageColor3 = Colors.Highlight
+			DropdownList.Visible = false
+			DropdownList.ZIndex = 10
+			DropdownList.Parent = ScreenGui  -- Parent to ScreenGui for absolute positioning
+
+			local ListCorner = Instance.new("UICorner")
+			ListCorner.CornerRadius = UDim.new(0, 6)
+			ListCorner.Parent = DropdownList
 
 			local ListLayout = Instance.new("UIListLayout")
-			ListLayout.Padding = UDim.new(0, 4)
+			ListLayout.Padding = UDim.new(0, 2)
 			ListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 			ListLayout.Parent = DropdownList
 
 			local ListPadding = Instance.new("UIPadding")
 			ListPadding.PaddingTop = UDim.new(0, 4)
 			ListPadding.PaddingBottom = UDim.new(0, 4)
+			ListPadding.PaddingLeft = UDim.new(0, 4)
+			ListPadding.PaddingRight = UDim.new(0, 4)
 			ListPadding.Parent = DropdownList
 
 			local isOpen = false
+			local closeConnection
 
-			local function updateListSize()
-				DropdownList.Size = UDim2.new(0.5, -16, 0, ListLayout.AbsoluteContentSize.Y + 8)
+			local function updateListPosition()
+				local buttonAbsPos = DropdownButton.AbsolutePosition
+				local buttonAbsSize = DropdownButton.AbsoluteSize
+				DropdownList.Position = UDim2.new(0, buttonAbsPos.X, 0, buttonAbsPos.Y + buttonAbsSize.Y + 2)
 			end
 
-			for _, option in ipairs(dropdownConfig.Options) do
+			local function updateListSize()
+				local contentHeight = ListLayout.AbsoluteContentSize.Y + 8
+				DropdownList.Size = UDim2.new(0.5, -16, 0, math.min(contentHeight, 120))
+				DropdownList.CanvasSize = UDim2.new(0, 0, 0, ListLayout.AbsoluteContentSize.Y + 8)
+				updateListPosition()
+			end
+
+			local function createOption(option)
 				local OptionButton = Instance.new("TextButton")
 				OptionButton.BackgroundColor3 = Colors.Background
 				OptionButton.BorderSizePixel = 0
@@ -920,10 +932,11 @@ function CrimsonUI:CreateWindow(config)
 				OptionButton.Text = option
 				OptionButton.TextColor3 = Colors.Text
 				OptionButton.TextSize = 12
+				OptionButton.ZIndex = 11
 				OptionButton.Parent = DropdownList
 
 				local OptionCorner = Instance.new("UICorner")
-				OptionCorner.CornerRadius = UDim.new(0, 6)
+				OptionCorner.CornerRadius = UDim.new(0, 4)
 				OptionCorner.Parent = OptionButton
 
 				OptionButton.MouseButton1Click:Connect(function()
@@ -931,8 +944,10 @@ function CrimsonUI:CreateWindow(config)
 					DropdownButton.Text = option
 					dropdownConfig.Callback(option)
 					isOpen = false
+					DropdownList.Visible = false
 					Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)}, 0.3)
 					Tween(DropdownIcon, {Rotation = 0}, 0.3)
+					if closeConnection then closeConnection:Disconnect() end
 				end)
 
 				OptionButton.MouseEnter:Connect(function()
@@ -944,28 +959,73 @@ function CrimsonUI:CreateWindow(config)
 				end)
 			end
 
-			ListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateListSize)
-			task.spawn(updateListSize)
+			for _, option in ipairs(dropdownConfig.Options) do
+				createOption(option)
+			end
 
-			Hitbox.MouseButton1Click:Connect(function()
-				isOpen = not isOpen
+			ListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateListSize)
+
+			local function openDropdown()
+				isOpen = true
+				DropdownList.Visible = true
+				updateListSize()
+				Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)}, 0.3)
+				Tween(DropdownIcon, {Rotation = 180}, 0.3)
+
+				-- Close when clicking outside
+				closeConnection = UserInputService.InputBegan:Connect(function(input)
+					if input.UserInputType == Enum.UserInputType.MouseButton1 or (isMobile and input.UserInputType == Enum.UserInputType.Touch) then
+						local mousePos = input.Position
+						local listAbsPos = DropdownList.AbsolutePosition
+						local listAbsSize = DropdownList.AbsoluteSize
+						local buttonAbsPos = DropdownButton.AbsolutePosition
+						local buttonAbsSize = DropdownButton.AbsoluteSize
+
+						local inList = mousePos.X >= listAbsPos.X and mousePos.X <= listAbsPos.X + listAbsSize.X
+							and mousePos.Y >= listAbsPos.Y and mousePos.Y <= listAbsPos.Y + listAbsSize.Y
+						local inButton = mousePos.X >= buttonAbsPos.X and mousePos.X <= buttonAbsPos.X + buttonAbsSize.X
+							and mousePos.Y >= buttonAbsPos.Y and mousePos.Y <= buttonAbsPos.Y + buttonAbsSize.Y
+
+						if not (inList or inButton) then
+							isOpen = false
+							DropdownList.Visible = false
+							Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)}, 0.3)
+							Tween(DropdownIcon, {Rotation = 0}, 0.3)
+							if closeConnection then closeConnection:Disconnect() end
+						end
+					end
+				end)
+			end
+
+			DropdownButton.MouseButton1Click:Connect(function()
 				if isOpen then
-					updateListSize()
-					local targetHeight = (isMobile and 54 or 38) + DropdownList.Size.Y.Offset
-					Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, targetHeight)}, 0.3)
-					Tween(DropdownIcon, {Rotation = 180}, 0.3)
-				else
+					isOpen = false
+					DropdownList.Visible = false
 					Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)}, 0.3)
 					Tween(DropdownIcon, {Rotation = 0}, 0.3)
+					if closeConnection then closeConnection:Disconnect() end
+				else
+					openDropdown()
 				end
 			end)
 
 			DropdownButton.MouseEnter:Connect(function()
-				Tween(DropdownButton, {BackgroundColor3 = Colors.Accent}, 0.2)
+				if not isOpen then
+					Tween(DropdownButton, {BackgroundColor3 = Colors.Accent}, 0.2)
+				end
 			end)
 
 			DropdownButton.MouseLeave:Connect(function()
-				Tween(DropdownButton, {BackgroundColor3 = Colors.Background}, 0.2)
+				if not isOpen then
+					Tween(DropdownButton, {BackgroundColor3 = Colors.Background}, 0.2)
+				end
+			end)
+
+			-- Ensure list updates position on window move
+			TopBar:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
+				if isOpen then
+					updateListPosition()
+				end
 			end)
 
 			return {
@@ -973,6 +1033,24 @@ function CrimsonUI:CreateWindow(config)
 					if table.find(dropdownConfig.Options, option) then
 						dropdownConfig.CurrentOption = option
 						DropdownButton.Text = option
+					end
+				end,
+				Add = function(option)
+					table.insert(dropdownConfig.Options, option)
+					createOption(option)
+					updateListSize()
+				end,
+				Remove = function(option)
+					local index = table.find(dropdownConfig.Options, option)
+					if index then
+						table.remove(dropdownConfig.Options, index)
+						for _, child in ipairs(DropdownList:GetChildren()) do
+							if child:IsA("TextButton") and child.Text == option then
+								child:Destroy()
+								break
+							end
+						end
+						updateListSize()
 					end
 				end
 			}
