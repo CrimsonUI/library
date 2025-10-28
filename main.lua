@@ -12,90 +12,138 @@ local Colors = {
 }
 
 local Themes = {
-	["Crimson"] = {Primary = Color3.fromRGB(180, 25, 45), Highlight = Color3.fromRGB(220, 35, 55)},
-	["Midnight"] = {Primary = Color3.fromRGB(30, 30, 60), Highlight = Color3.fromRGB(50, 50, 90)},
-	["Ocean"] = {Primary = Color3.fromRGB(0, 120, 215), Highlight = Color3.fromRGB(0, 160, 255)},
-	["Forest"] = {Primary = Color3.fromRGB(34, 139, 34), Highlight = Color3.fromRGB(50, 205, 50)},
-	["Sunset"] = {Primary = Color3.fromRGB(255, 94, 0), Highlight = Color3.fromRGB(255, 140, 0)},
-	["Violet"] = {Primary = Color3.fromRGB(138, 43, 226), Highlight = Color3.fromRGB(186, 85, 211)},
-	["Rose"] = {Primary = Color3.fromRGB(220, 20, 60), Highlight = Color3.fromRGB(255, 20, 147)},
-	["Azure"] = {Primary = Color3.fromRGB(0, 191, 255), Highlight = Color3.fromRGB(135, 206, 250)},
-	["Amber"] = {Primary = Color3.fromRGB(255, 191, 0), Highlight = Color3.fromRGB(255, 215, 0)},
-	["Emerald"] = {Primary = Color3.fromRGB(0, 128, 0), Highlight = Color3.fromRGB(50, 205, 50)},
-	["Slate"] = {Primary = Color3.fromRGB(70, 70, 80), Highlight = Color3.fromRGB(100, 100, 120)},
-	["Coral"] = {Primary = Color3.fromRGB(255, 90, 90), Highlight = Color3.fromRGB(255, 130, 130)},
-	["Indigo"] = {Primary = Color3.fromRGB(75, 0, 130), Highlight = Color3.fromRGB(100, 0, 200)},
-	["Teal"] = {Primary = Color3.fromRGB(0, 128, 128), Highlight = Color3.fromRGB(0, 200, 200)},
-	["Plum"] = {Primary = Color3.fromRGB(139, 0, 139), Highlight = Color3.fromRGB(199, 21, 133)}
+	["Crimson"] = {
+		Primary = Color3.fromRGB(180, 25, 45),
+		Highlight = Color3.fromRGB(220, 35, 55),
+		Accent = Color3.fromRGB(65, 20, 30),
+		Secondary = Color3.fromRGB(40, 40, 46),
+		Background = Color3.fromRGB(30, 30, 36),
+		Text = Color3.fromRGB(245, 245, 245),
+		TextDark = Color3.fromRGB(180, 180, 180)
+	},
+	["Midnight"] = {
+		Primary = Color3.fromRGB(30, 30, 60),
+		Highlight = Color3.fromRGB(50, 50, 90),
+		Accent = Color3.fromRGB(20, 20, 40),
+		Secondary = Color3.fromRGB(25, 25, 50),
+		Background = Color3.fromRGB(15, 15, 30),
+		Text = Color3.fromRGB(200, 200, 200),
+		TextDark = Color3.fromRGB(150, 150, 150)
+	},
+	["Ocean"] = {
+		Primary = Color3.fromRGB(0, 120, 215),
+		Highlight = Color3.fromRGB(0, 160, 255),
+		Accent = Color3.fromRGB(0, 90, 160),
+		Secondary = Color3.fromRGB(0, 100, 180),
+		Background = Color3.fromRGB(0, 80, 140),
+		Text = Color3.fromRGB(255, 255, 255),
+		TextDark = Color3.fromRGB(200, 200, 200)
+	},
+	["Forest"] = {
+		Primary = Color3.fromRGB(34, 139, 34),
+		Highlight = Color3.fromRGB(50, 205, 50),
+		Accent = Color3.fromRGB(25, 100, 25),
+		Secondary = Color3.fromRGB(30, 120, 30),
+		Background = Color3.fromRGB(20, 90, 20),
+		Text = Color3.fromRGB(255, 255, 255),
+		TextDark = Color3.fromRGB(180, 180, 180)
+	},
+	["Sunset"] = {
+		Primary = Color3.fromRGB(255, 94, 0),
+		Highlight = Color3.fromRGB(255, 140, 0),
+		Accent = Color3.fromRGB(200, 70, 0),
+		Secondary = Color3.fromRGB(220, 80, 0),
+		Background = Color3.fromRGB(180, 60, 0),
+		Text = Color3.fromRGB(255, 255, 255),
+		TextDark = Color3.fromRGB(220, 220, 220)
+	},
+	["Violet"] = {
+		Primary = Color3.fromRGB(138, 43, 226),
+		Highlight = Color3.fromRGB(186, 85, 211),
+		Accent = Color3.fromRGB(100, 30, 160),
+		Secondary = Color3.fromRGB(110, 40, 170),
+		Background = Color3.fromRGB(90, 25, 140),
+		Text = Color3.fromRGB(255, 255, 255),
+		TextDark = Color3.fromRGB(200, 200, 200)
+	}
 }
 
 local Icons = {
-	Home = "rbxassetid://10734884548",
-	Settings = "rbxassetid://10734950309",
-	User = "rbxassetid://10747374131",
-	Users = "rbxassetid://10747374668",
-	Shield = "rbxassetid://10734952273",
-	Sword = "rbxassetid://10734961090",
-	Crown = "rbxassetid://10734919336",
-	Star = "rbxassetid://10734896629",
-	Heart = "rbxassetid://10734919750",
-	Book = "rbxassetid://10734886004",
-	Briefcase = "rbxassetid://10734886559",
-	Calendar = "rbxassetid://10734886815",
-	Camera = "rbxassetid://10734886971",
-	Code = "rbxassetid://10734918229",
-	Zap = "rbxassetid://10747374401",
-	Activity = "rbxassetid://10734883989",
-	Airplay = "rbxassetid://10734884103",
-	AlertCircle = "rbxassetid://10734884355",
-	AlertTriangle = "rbxassetid://10734884551",
-	Archive = "rbxassetid://10734884742",
-	Award = "rbxassetid://10734885003",
-	Bell = "rbxassetid://10734885266",
-	Box = "rbxassetid://10734886314",
-	Command = "rbxassetid://10734918568",
-	Cpu = "rbxassetid://10734919088",
-	Database = "rbxassetid://10734920149",
-	Download = "rbxassetid://10734920526",
-	Eye = "rbxassetid://10734921214",
-	File = "rbxassetid://10734921595",
-	Flag = "rbxassetid://10734921942",
-	Gift = "rbxassetid://10734922026",
-	Globe = "rbxassetid://10734922241",
-	Grid = "rbxassetid://10734922491",
-	Info = "rbxassetid://10734923214",
-	Key = "rbxassetid://10734923549",
-	Lock = "rbxassetid://10734924532",
-	Mail = "rbxassetid://10734924844",
-	Map = "rbxassetid://10734925272",
-	Menu = "rbxassetid://10734925524",
-	MessageCircle = "rbxassetid://10734925739",
-	Package = "rbxassetid://10734949856",
-	Pencil = "rbxassetid://10734950309",
-	Play = "rbxassetid://10734950690",
-	Plus = "rbxassetid://10734950837",
-	Search = "rbxassetid://10734952273",
-	Server = "rbxassetid://10734952529",
-	Share = "rbxassetid://10734952692",
-	ShoppingCart = "rbxassetid://10734952925",
-	Shuffle = "rbxassetid://10734953146",
-	Target = "rbxassetid://10734953353",
-	Terminal = "rbxassetid://10734953505",
-	Tool = "rbxassetid://10734953697",
-	Trash = "rbxassetid://10734953864",
-	TrendingUp = "rbxassetid://10734954095",
-	Trophy = "rbxassetid://10734954216",
-	Upload = "rbxassetid://10734954382",
-	Wrench = "rbxassetid://10747373176",
-	X = "rbxassetid://10734896547",
-	Minimize = "rbxassetid://7733964640",
-	DownArrow = "rbxassetid://10709791437"
+	{"Home", "rbxassetid://10734884548"},
+	{"Settings", "rbxassetid://10734950309"},
+	{"User", "rbxassetid://10747374131"},
+	{"Users", "rbxassetid://10747374668"},
+	{"Shield", "rbxassetid://10734952273"},
+	{"Sword", "rbxassetid://10734961090"},
+	{"Crown", "rbxassetid://10734919336"},
+	{"Star", "rbxassetid://10734896629"},
+	{"Heart", "rbxassetid://10734919750"},
+	{"Book", "rbxassetid://10734886004"},
+	{"Briefcase", "rbxassetid://10734886559"},
+	{"Calendar", "rbxassetid://10734886815"},
+	{"Camera", "rbxassetid://10734886971"},
+	{"Code", "rbxassetid://10734918229"},
+	{"Zap", "rbxassetid://10747374401"},
+	{"Activity", "rbxassetid://10734883989"},
+	{"Airplay", "rbxassetid://10734884103"},
+	{"AlertCircle", "rbxassetid://10734884355"},
+	{"AlertTriangle", "rbxassetid://10734884551"},
+	{"Archive", "rbxassetid://10734884742"},
+	{"Award", "rbxassetid://10734885003"},
+	{"Bell", "rbxassetid://10734885266"},
+	{"Box", "rbxassetid://10734886314"},
+	{"Command", "rbxassetid://10734918568"},
+	{"Cpu", "rbxassetid://10734919088"},
+	{"Database", "rbxassetid://10734920149"},
+	{"Download", "rbxassetid://10734920526"},
+	{"Eye", "rbxassetid://10734921214"},
+	{"File", "rbxassetid://10734921595"},
+	{"Flag", "rbxassetid://10734921942"},
+	{"Gift", "rbxassetid://10734922026"},
+	{"Globe", "rbxassetid://10734922241"},
+	{"Grid", "rbxassetid://10734922491"},
+	{"Info", "rbxassetid://10734923214"},
+	{"Key", "rbxassetid://10734923549"},
+	{"Lock", "rbxassetid://10734924532"},
+	{"Mail", "rbxassetid://10734924844"},
+	{"Map", "rbxassetid://10734925272"},
+	{"Menu", "rbxassetid://10734925524"},
+	{"MessageCircle", "rbxassetid://10734925739"},
+	{"Package", "rbxassetid://10734949856"},
+	{"Pencil", "rbxassetid://10734950309"},
+	{"Play", "rbxassetid://10734950690"},
+	{"Plus", "rbxassetid://10734950837"},
+	{"Search", "rbxassetid://10734952273"},
+	{"Server", "rbxassetid://10734952529"},
+	{"Share", "rbxassetid://10734952692"},
+	{"ShoppingCart", "rbxassetid://10734952925"},
+	{"Shuffle", "rbxassetid://10734953146"},
+	{"Target", "rbxassetid://10734953353"},
+	{"Terminal", "rbxassetid://10734953505"},
+	{"Tool", "rbxassetid://10734953697"},
+	{"Trash", "rbxassetid://10734953864"},
+	{"TrendingUp", "rbxassetid://10734954095"},
+	{"Trophy", "rbxassetid://10734954216"},
+	{"Upload", "rbxassetid://10734954382"},
+	{"Wrench", "rbxassetid://10747373176"},
+	{"X", "rbxassetid://10734896547"},
+	{"Minimize", "rbxassetid://7733964640"},
+	{"DownArrow", "rbxassetid://10709791437"}
 }
 
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 
 local isMobile = UserInputService.TouchEnabled and not UserInputService.MouseEnabled
+
+local function GetIcon(name)
+	for _, v in ipairs(Icons) do
+		if v[1] == name then
+			return v[2]
+		end
+	end
+	return ""
+end
 
 local function Tween(object, properties, duration)
 	local tweenInfo = TweenInfo.new(duration or 0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
@@ -179,16 +227,78 @@ local function CreateLoadingScreen(parent, config)
 	}
 end
 
+local function UpdateAllElements(gui)
+	local MainFrame = gui:FindFirstChild("MainFrame")
+	if not MainFrame then return end
+
+	MainFrame.BackgroundColor3 = Colors.Background
+	local glow = MainFrame:FindFirstChild("Glow")
+	if glow then glow.ImageColor3 = Colors.Highlight end
+
+	local TopBar = MainFrame:FindFirstChild("TopBar")
+	if TopBar then
+		TopBar.BackgroundColor3 = Colors.Accent
+		TopBar:FindFirstChild("TopBarFix").BackgroundColor3 = Colors.Accent
+	end
+
+	local TabContainer = MainFrame:FindFirstChild("TabContainer")
+	if TabContainer then
+		TabContainer.BackgroundColor3 = Colors.Secondary
+	end
+
+	local ContentContainer = MainFrame:FindFirstChild("ContentContainer")
+	if ContentContainer then
+		for _, tab in ipairs(ContentContainer:GetChildren()) do
+			if tab:IsA("ScrollingFrame") then
+				tab.ScrollBarImageColor3 = Colors.Highlight
+				for _, element in ipairs(tab:GetChildren()) do
+					if element:IsA("Frame") then
+						element.BackgroundColor3 = Colors.Secondary
+						if element:FindFirstChild("SliderBackground") then
+							element.SliderBackground.BackgroundColor3 = Colors.Background
+							element.SliderFill.BackgroundColor3 = Colors.Highlight
+						end
+						if element:FindFirstChild("InputBox") then
+							element.InputBox.BackgroundColor3 = Colors.Background
+						end
+						if element:FindFirstChild("ToggleButton") then
+							local toggle = element.ToggleButton
+							local circle = toggle:FindFirstChild("ToggleCircle")
+							if circle and circle.Position.X.Offset > 10 then
+								toggle.BackgroundColor3 = Colors.Highlight
+							else
+								toggle.BackgroundColor3 = Colors.Background
+							end
+						end
+						if element:FindFirstChild("DropdownButton") then
+							element.DropdownButton.BackgroundColor3 = Colors.Background
+							local icon = element.DropdownButton:FindFirstChild("DropdownIcon")
+							if icon then icon.ImageColor3 = Colors.TextDark end
+						end
+						if element:FindFirstChild("KeybindButton") then
+							element.KeybindButton.BackgroundColor3 = Colors.Background
+							element.KeybindButton.TextColor3 = Colors.Highlight
+						end
+					end
+				end
+			end
+		end
+	end
+
+	local MinimizeIcon = TopBar and TopBar:FindFirstChild("MinimizeButton"):FindFirstChild("Icon")
+	if MinimizeIcon then
+		MinimizeIcon.ImageColor3 = Colors.TextDark
+	end
+end
+
 function CrimsonUI:SetTheme(name)
 	if not Themes[name] then return end
-	Colors.Primary = Themes[name].Primary
-	Colors.Highlight = Themes[name].Highlight
+	for key, value in pairs(Themes[name]) do
+		Colors[key] = value
+	end
 	local gui = game:GetService("CoreGui"):FindFirstChild("CrimsonUI")
 	if gui then
-		local topbar = gui:FindFirstChild("MainFrame"):FindFirstChild("TopBar")
-		if topbar then
-			Tween(topbar, {BackgroundColor3 = Colors.Accent}, 0.3)
-		end
+		UpdateAllElements(gui)
 	end
 end
 
@@ -270,7 +380,7 @@ function CrimsonUI:CreateWindow(config)
 	MinimizeIcon.Name = "Icon"
 	MinimizeIcon.BackgroundTransparency = 1
 	MinimizeIcon.Size = UDim2.new(1, 0, 1, 0)
-	MinimizeIcon.Image = Icons.Minimize
+	MinimizeIcon.Image = GetIcon("Minimize")
 	MinimizeIcon.ImageColor3 = Colors.TextDark
 	MinimizeIcon.Parent = MinimizeButton
 
@@ -371,7 +481,7 @@ function CrimsonUI:CreateWindow(config)
 	function Window:CreateTab(config)
 		local tabConfig = {
 			Name = config.Name or "Tab",
-			Icon = config.Icon or Icons.Home
+			Icon = config.Icon or GetIcon("Home")
 		}
 
 		local TabButton = Instance.new("TextButton")
@@ -449,10 +559,8 @@ function CrimsonUI:CreateWindow(config)
 			for _, tab in pairs(Window.Tabs) do
 				tab.Content.Visible = false
 				Tween(tab.Button, {BackgroundColor3 = Colors.Background}, 0.2)
-				local icon = tab.Button:FindFirstChild("Icon")
-				local label = tab.Button:FindFirstChild("Label")
-				if icon then Tween(icon, {ImageColor3 = Colors.TextDark}, 0.2) end
-				if label then Tween(label, {TextColor3 = Colors.TextDark}, 0.2) end
+				Tween(tab.Button.Icon, {ImageColor3 = Colors.TextDark}, 0.2)
+				Tween(tab.Button.Label, {TextColor3 = Colors.TextDark}, 0.2)
 			end
 
 			TabContent.Visible = true
@@ -670,6 +778,7 @@ function CrimsonUI:CreateWindow(config)
 			SliderValue.Parent = SliderFrame
 
 			local SliderBackground = Instance.new("Frame")
+			SliderBackground.Name = "SliderBackground"
 			SliderBackground.BackgroundColor3 = Colors.Background
 			SliderBackground.BorderSizePixel = 0
 			SliderBackground.Position = UDim2.new(0, 12, 0, isMobile and 40 or 32)
@@ -681,6 +790,7 @@ function CrimsonUI:CreateWindow(config)
 			SliderBgCorner.Parent = SliderBackground
 
 			local SliderFill = Instance.new("Frame")
+			SliderFill.Name = "SliderFill"
 			SliderFill.BackgroundColor3 = Colors.Highlight
 			SliderFill.BorderSizePixel = 0
 			SliderFill.Size = UDim2.new((sliderConfig.CurrentValue - sliderConfig.Range[1]) / (sliderConfig.Range[2] - sliderConfig.Range[1]), 0, 1, 0)
@@ -770,6 +880,7 @@ function CrimsonUI:CreateWindow(config)
 			InputLabel.Parent = InputFrame
 
 			local InputBox = Instance.new("TextBox")
+			InputBox.Name = "InputBox"
 			InputBox.BackgroundColor3 = Colors.Background
 			InputBox.BorderSizePixel = 0
 			InputBox.Position = UDim2.new(0, 12, 0, isMobile and 40 or 32)
@@ -830,7 +941,6 @@ function CrimsonUI:CreateWindow(config)
 			DropdownFrame.BackgroundColor3 = Colors.Secondary
 			DropdownFrame.BorderSizePixel = 0
 			DropdownFrame.Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)
-			DropdownFrame.ClipsDescendants = true
 			DropdownFrame.Parent = TabContent
 
 			local DropdownCorner = Instance.new("UICorner")
@@ -849,6 +959,7 @@ function CrimsonUI:CreateWindow(config)
 			DropdownLabel.Parent = DropdownFrame
 
 			local DropdownButton = Instance.new("TextButton")
+			DropdownButton.Name = "DropdownButton"
 			DropdownButton.BackgroundColor3 = Colors.Background
 			DropdownButton.BorderSizePixel = 0
 			DropdownButton.Position = UDim2.new(0.5, 4, 0.5, -13)
@@ -870,25 +981,26 @@ function CrimsonUI:CreateWindow(config)
 			DropdownButtonPadding.Parent = DropdownButton
 
 			local DropdownIcon = Instance.new("ImageLabel")
+			DropdownIcon.Name = "DropdownIcon"
 			DropdownIcon.BackgroundTransparency = 1
 			DropdownIcon.Position = UDim2.new(1, -22, 0.5, -8)
 			DropdownIcon.Size = UDim2.new(0, 16, 0, 16)
-			DropdownIcon.Image = Icons.DownArrow
+			DropdownIcon.Image = GetIcon("DownArrow")
 			DropdownIcon.ImageColor3 = Colors.TextDark
 			DropdownIcon.Parent = DropdownButton
 
-			-- Dropdown List (now positioned absolutely below the button)
 			local DropdownList = Instance.new("ScrollingFrame")
-			DropdownList.Name = "List"
+			DropdownList.Name = "DropdownList"
 			DropdownList.BackgroundColor3 = Colors.Background
 			DropdownList.BorderSizePixel = 0
 			DropdownList.Size = UDim2.new(0.5, -16, 0, 0)
+			DropdownList.Position = UDim2.new(0.5, 4, 1, 2)
 			DropdownList.CanvasSize = UDim2.new(0, 0, 0, 0)
 			DropdownList.ScrollBarThickness = 2
 			DropdownList.ScrollBarImageColor3 = Colors.Highlight
 			DropdownList.Visible = false
-			DropdownList.ZIndex = 10
-			DropdownList.Parent = ScreenGui  -- Parent to ScreenGui for absolute positioning
+			DropdownList.ClipsDescendants = true
+			DropdownList.Parent = DropdownFrame
 
 			local ListCorner = Instance.new("UICorner")
 			ListCorner.CornerRadius = UDim.new(0, 6)
@@ -909,17 +1021,10 @@ function CrimsonUI:CreateWindow(config)
 			local isOpen = false
 			local closeConnection
 
-			local function updateListPosition()
-				local buttonAbsPos = DropdownButton.AbsolutePosition
-				local buttonAbsSize = DropdownButton.AbsoluteSize
-				DropdownList.Position = UDim2.new(0, buttonAbsPos.X, 0, buttonAbsPos.Y + buttonAbsSize.Y + 2)
-			end
-
 			local function updateListSize()
 				local contentHeight = ListLayout.AbsoluteContentSize.Y + 8
 				DropdownList.Size = UDim2.new(0.5, -16, 0, math.min(contentHeight, 120))
 				DropdownList.CanvasSize = UDim2.new(0, 0, 0, ListLayout.AbsoluteContentSize.Y + 8)
-				updateListPosition()
 			end
 
 			local function createOption(option)
@@ -932,7 +1037,6 @@ function CrimsonUI:CreateWindow(config)
 				OptionButton.Text = option
 				OptionButton.TextColor3 = Colors.Text
 				OptionButton.TextSize = 12
-				OptionButton.ZIndex = 11
 				OptionButton.Parent = DropdownList
 
 				local OptionCorner = Instance.new("UICorner")
@@ -945,7 +1049,6 @@ function CrimsonUI:CreateWindow(config)
 					dropdownConfig.Callback(option)
 					isOpen = false
 					DropdownList.Visible = false
-					Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)}, 0.3)
 					Tween(DropdownIcon, {Rotation = 0}, 0.3)
 					if closeConnection then closeConnection:Disconnect() end
 				end)
@@ -969,27 +1072,24 @@ function CrimsonUI:CreateWindow(config)
 				isOpen = true
 				DropdownList.Visible = true
 				updateListSize()
-				Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)}, 0.3)
 				Tween(DropdownIcon, {Rotation = 180}, 0.3)
 
-				-- Close when clicking outside
 				closeConnection = UserInputService.InputBegan:Connect(function(input)
 					if input.UserInputType == Enum.UserInputType.MouseButton1 or (isMobile and input.UserInputType == Enum.UserInputType.Touch) then
 						local mousePos = input.Position
-						local listAbsPos = DropdownList.AbsolutePosition
-						local listAbsSize = DropdownList.AbsoluteSize
-						local buttonAbsPos = DropdownButton.AbsolutePosition
-						local buttonAbsSize = DropdownButton.AbsoluteSize
+						local listRect = DropdownList.AbsolutePosition
+						local listSize = DropdownList.AbsoluteSize
+						local buttonRect = DropdownButton.AbsolutePosition
+						local buttonSize = DropdownButton.AbsoluteSize
 
-						local inList = mousePos.X >= listAbsPos.X and mousePos.X <= listAbsPos.X + listAbsSize.X
-							and mousePos.Y >= listAbsPos.Y and mousePos.Y <= listAbsPos.Y + listAbsSize.Y
-						local inButton = mousePos.X >= buttonAbsPos.X and mousePos.X <= buttonAbsPos.X + buttonAbsSize.X
-							and mousePos.Y >= buttonAbsPos.Y and mousePos.Y <= buttonAbsPos.Y + buttonAbsSize.Y
+						local inList = mousePos.X >= listRect.X and mousePos.X <= listRect.X + listSize.X
+							and mousePos.Y >= listRect.Y and mousePos.Y <= listRect.Y + listSize.Y
+						local inButton = mousePos.X >= buttonRect.X and mousePos.X <= buttonRect.X + buttonSize.X
+							and mousePos.Y >= buttonRect.Y and mousePos.Y <= buttonRect.Y + buttonSize.Y
 
 						if not (inList or inButton) then
 							isOpen = false
 							DropdownList.Visible = false
-							Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)}, 0.3)
 							Tween(DropdownIcon, {Rotation = 0}, 0.3)
 							if closeConnection then closeConnection:Disconnect() end
 						end
@@ -1001,7 +1101,6 @@ function CrimsonUI:CreateWindow(config)
 				if isOpen then
 					isOpen = false
 					DropdownList.Visible = false
-					Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)}, 0.3)
 					Tween(DropdownIcon, {Rotation = 0}, 0.3)
 					if closeConnection then closeConnection:Disconnect() end
 				else
@@ -1018,13 +1117,6 @@ function CrimsonUI:CreateWindow(config)
 			DropdownButton.MouseLeave:Connect(function()
 				if not isOpen then
 					Tween(DropdownButton, {BackgroundColor3 = Colors.Background}, 0.2)
-				end
-			end)
-
-			-- Ensure list updates position on window move
-			TopBar:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
-				if isOpen then
-					updateListPosition()
 				end
 			end)
 
@@ -1093,6 +1185,7 @@ function CrimsonUI:CreateWindow(config)
 			ColorLabel.Parent = ColorFrame
 
 			local ColorDisplay = Instance.new("Frame")
+			ColorDisplay.Name = "ColorDisplay"
 			ColorDisplay.BackgroundColor3 = colorConfig.Color
 			ColorDisplay.BorderSizePixel = 0
 			ColorDisplay.Position = UDim2.new(1, -40, 0.5, -11)
@@ -1237,6 +1330,7 @@ function CrimsonUI:CreateWindow(config)
 			KeybindLabel.Parent = KeybindFrame
 
 			local KeybindButton = Instance.new("TextButton")
+			KeybindButton.Name = "KeybindButton"
 			KeybindButton.BackgroundColor3 = Colors.Background
 			KeybindButton.BorderSizePixel = 0
 			KeybindButton.Position = UDim2.new(0.5, 4, 0.5, -13)
@@ -1365,7 +1459,7 @@ function CrimsonUI:Notify(config)
 		Title = config.Title or "Notification",
 		Content = config.Content or "This is a notification",
 		Duration = config.Duration or 5,
-		Image = config.Image or Icons.Bell
+		Image = config.Image or GetIcon("Bell")
 	}
 
 	local ScreenGui = game:GetService("CoreGui"):FindFirstChild("CrimsonUI_Notifications")
@@ -1389,7 +1483,7 @@ function CrimsonUI:Notify(config)
 	NotificationCorner.CornerRadius = UDim.new(0, 10)
 	NotificationCorner.Parent = NotificationFrame
 
-	CreateGlow(NotificationFrame)
+	CreateGlow(NotificationFrame).ImageColor3 = Colors.Highlight
 
 	local NotificationIcon = Instance.new("ImageLabel")
 	NotificationIcon.BackgroundTransparency = 1
@@ -1423,20 +1517,14 @@ function CrimsonUI:Notify(config)
 	NotificationContent.TextYAlignment = Enum.TextYAlignment.Top
 	NotificationContent.Parent = NotificationFrame
 
-	Tween(NotificationFrame, {Position = UDim2.new(1, -330, 1, -90)}, 0.5)
+	Tween(NotificationFrame, {Position = UDim2.new(1, -330, 1, -90)}, 0.3)
 
-	task.wait(notifyConfig.Duration)
-
-	Tween(NotificationFrame, {Position = UDim2.new(1, 10, 1, -90)}, 0.5)
-	task.wait(0.5)
-	NotificationFrame:Destroy()
-
-	if #ScreenGui:GetChildren() == 0 then
-		ScreenGui:Destroy()
-	end
+	task.delay(notifyConfig.Duration, function()
+		Tween(NotificationFrame, {Position = UDim2.new(1, 10, 1, -90)}, 0.3)
+		task.delay(0.3, function()
+			NotificationFrame:Destroy()
+		end)
+	end)
 end
-
-CrimsonUI.Icons = Icons
-CrimsonUI.Themes = Themes
 
 return CrimsonUI
