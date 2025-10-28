@@ -11,6 +11,24 @@ local Colors = {
 	TextDark = Color3.fromRGB(180, 180, 180)
 }
 
+local Themes = {
+	["Crimson"] = {Primary = Color3.fromRGB(180, 25, 45), Highlight = Color3.fromRGB(220, 35, 55)},
+	["Midnight"] = {Primary = Color3.fromRGB(30, 30, 60), Highlight = Color3.fromRGB(50, 50, 90)},
+	["Ocean"] = {Primary = Color3.fromRGB(0, 120, 215), Highlight = Color3.fromRGB(0, 160, 255)},
+	["Forest"] = {Primary = Color3.fromRGB(34, 139, 34), Highlight = Color3.fromRGB(50, 205, 50)},
+	["Sunset"] = {Primary = Color3.fromRGB(255, 94, 0), Highlight = Color3.fromRGB(255, 140, 0)},
+	["Violet"] = {Primary = Color3.fromRGB(138, 43, 226), Highlight = Color3.fromRGB(186, 85, 211)},
+	["Rose"] = {Primary = Color3.fromRGB(220, 20, 60), Highlight = Color3.fromRGB(255, 20, 147)},
+	["Azure"] = {Primary = Color3.fromRGB(0, 191, 255), Highlight = Color3.fromRGB(135, 206, 250)},
+	["Amber"] = {Primary = Color3.fromRGB(255, 191, 0), Highlight = Color3.fromRGB(255, 215, 0)},
+	["Emerald"] = {Primary = Color3.fromRGB(0, 128, 0), Highlight = Color3.fromRGB(50, 205, 50)},
+	["Slate"] = {Primary = Color3.fromRGB(70, 70, 80), Highlight = Color3.fromRGB(100, 100, 120)},
+	["Coral"] = {Primary = Color3.fromRGB(255, 90, 90), Highlight = Color3.fromRGB(255, 130, 130)},
+	["Indigo"] = {Primary = Color3.fromRGB(75, 0, 130), Highlight = Color3.fromRGB(100, 0, 200)},
+	["Teal"] = {Primary = Color3.fromRGB(0, 128, 128), Highlight = Color3.fromRGB(0, 200, 200)},
+	["Plum"] = {Primary = Color3.fromRGB(139, 0, 139), Highlight = Color3.fromRGB(199, 21, 133)}
+}
+
 local Icons = {
 	Home = "rbxassetid://10734884548",
 	Settings = "rbxassetid://10734950309",
@@ -70,12 +88,12 @@ local Icons = {
 	Upload = "rbxassetid://10734954382",
 	Wrench = "rbxassetid://10747373176",
 	X = "rbxassetid://10734896547",
-	Minimize = "rbxassetid://7733964640"
+	Minimize = "rbxassetid://7733964640",
+	DownArrow = "rbxassetid://10709791437"
 }
 
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
-local RunService = game:GetService("RunService")
 
 local isMobile = UserInputService.TouchEnabled and not UserInputService.MouseEnabled
 
@@ -161,6 +179,19 @@ local function CreateLoadingScreen(parent, config)
 	}
 end
 
+function CrimsonUI:SetTheme(name)
+	if not Themes[name] then return end
+	Colors.Primary = Themes[name].Primary
+	Colors.Highlight = Themes[name].Highlight
+	local gui = game:GetService("CoreGui"):FindFirstChild("CrimsonUI")
+	if gui then
+		local topbar = gui:FindFirstChild("MainFrame"):FindFirstChild("TopBar")
+		if topbar then
+			Tween(topbar, {BackgroundColor3 = Colors.Accent}, 0.3)
+		end
+	end
+end
+
 function CrimsonUI:CreateWindow(config)
 	local windowConfig = {
 		Name = config.Name or "Crimson UI",
@@ -218,7 +249,7 @@ function CrimsonUI:CreateWindow(config)
 	Title.Name = "Title"
 	Title.BackgroundTransparency = 1
 	Title.Position = UDim2.new(0, 20, 0, 0)
-	Title.Size = UDim2.new(0.5, 0, 1, 0)
+	Title.Size = UDim2.new(0.5, 0, 1, Title)
 	Title.Font = Enum.Font.GothamBold
 	Title.Text = windowConfig.Name
 	Title.TextColor3 = Colors.Text
@@ -824,7 +855,7 @@ function CrimsonUI:CreateWindow(config)
 			local DropdownLabel = Instance.new("TextLabel")
 			DropdownLabel.BackgroundTransparency = 1
 			DropdownLabel.Position = UDim2.new(0, 12, 0, 0)
-			DropdownLabel.Size = UDim2.new(0.5, 0, 0, 38)
+			DropdownLabel.Size = UDim2.new(0.5, 0, 1, 0)
 			DropdownLabel.Font = Enum.Font.GothamMedium
 			DropdownLabel.Text = dropdownConfig.Name
 			DropdownLabel.TextColor3 = Colors.Text
@@ -839,7 +870,7 @@ function CrimsonUI:CreateWindow(config)
 			DropdownButton.Size = UDim2.new(0.5, -16, 0, 26)
 			DropdownButton.AutoButtonColor = false
 			DropdownButton.Font = Enum.Font.Gotham
-			DropdownButton.Text = "  " .. dropdownConfig.CurrentOption
+			DropdownButton.Text = dropdownConfig.CurrentOption
 			DropdownButton.TextColor3 = Colors.Text
 			DropdownButton.TextSize = 12
 			DropdownButton.TextXAlignment = Enum.TextXAlignment.Left
@@ -849,20 +880,18 @@ function CrimsonUI:CreateWindow(config)
 			DropdownButtonCorner.CornerRadius = UDim.new(0, 6)
 			DropdownButtonCorner.Parent = DropdownButton
 
-			local DropdownIcon = Instance.new("TextLabel")
+			local DropdownIcon = Instance.new("ImageLabel")
 			DropdownIcon.BackgroundTransparency = 1
-			DropdownIcon.Position = UDim2.new(1, -20, 0.5, -8)
+			DropdownIcon.Position = UDim2.new(1, -22, 0.5, -8)
 			DropdownIcon.Size = UDim2.new(0, 16, 0, 16)
-			DropdownIcon.Font = Enum.Font.GothamBold
-			DropdownIcon.Text = "Down Arrow"
-			DropdownIcon.TextColor3 = Colors.Highlight
-			DropdownIcon.TextSize = 10
+			DropdownIcon.Image = Icons.DownArrow
+			DropdownIcon.ImageColor3 = Colors.TextDark
 			DropdownIcon.Parent = DropdownButton
 
 			local DropdownList = Instance.new("Frame")
 			DropdownList.BackgroundTransparency = 1
-			DropdownList.Position = UDim2.new(0, 8, 0, 42)
-			DropdownList.Size = UDim2.new(1, -16, 0, 0)
+			DropdownList.Position = UDim2.new(0.5, 4, 1, 4)
+			DropdownList.Size = UDim2.new(0.5, -16, 0, 0)
 			DropdownList.Parent = DropdownFrame
 
 			local ListLayout = Instance.new("UIListLayout")
@@ -890,7 +919,7 @@ function CrimsonUI:CreateWindow(config)
 
 				OptionButton.MouseButton1Click:Connect(function()
 					dropdownConfig.CurrentOption = option
-					DropdownButton.Text = "  " .. option
+					DropdownButton.Text = option
 					dropdownConfig.Callback(option)
 					isOpen = false
 					Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)}, 0.3)
@@ -907,14 +936,14 @@ function CrimsonUI:CreateWindow(config)
 			end
 
 			ListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-				DropdownList.Size = UDim2.new(1, -16, 0, ListLayout.AbsoluteContentSize.Y)
+				DropdownList.Size = UDim2.new(0.5, -16, 0, ListLayout.AbsoluteContentSize.Y)
 			end)
 
 			Hitbox.MouseButton1Click:Connect(function()
 				isOpen = not isOpen
 				if isOpen then
-					local targetSize = (isMobile and 54 or 46) + ListLayout.AbsoluteContentSize.Y
-					Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, targetSize)}, 0.3)
+					local targetHeight = (isMobile and 54 or 38) + ListLayout.AbsoluteContentSize.Y + 8
+					Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, targetHeight)}, 0.3)
 					Tween(DropdownIcon, {Rotation = 180}, 0.3)
 				else
 					Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)}, 0.3)
@@ -932,8 +961,10 @@ function CrimsonUI:CreateWindow(config)
 
 			return {
 				Set = function(option)
-					dropdownConfig.CurrentOption = option
-					DropdownButton.Text = "  " .. option
+					if table.find(dropdownConfig.Options, option) then
+						dropdownConfig.CurrentOption = option
+						DropdownButton.Text = option
+					end
 				end
 			}
 		end
@@ -1074,9 +1105,9 @@ function CrimsonUI:CreateWindow(config)
 			ParagraphContent.Parent = ParagraphFrame
 
 			return {
-				Set = function(config)
-					if config.Title then ParagraphTitle.Text = config.Title end
-					if config.Content then ParagraphContent.Text = config.Content end
+				Set = function(cfg)
+					if cfg.Title then ParagraphTitle.Text = cfg.Title end
+					if cfg.Content then ParagraphContent.Text = cfg.Content end
 				end
 			}
 		end
@@ -1202,10 +1233,11 @@ function CrimsonUI:CreateWindow(config)
 			local SectionLabel = Instance.new("TextLabel")
 			SectionLabel.BackgroundColor3 = Colors.Background
 			SectionLabel.BorderSizePixel = 0
-			SectionLabel.Position = UDim2.new(0, 0, 0.5, -9)
+			SectionLabel.Position = UDim2.new(0.5, 0, 0.5, -9)
+			SectionLabel.AnchorPoint = Vector2.new(0.5, 0.5)
 			SectionLabel.Size = UDim2.new(0, 0, 0, 18)
 			SectionLabel.Font = Enum.Font.GothamBold
-			SectionLabel.Text = " " .. (name or "Section") .. " "
+			SectionLabel.Text = (name or "Section")
 			SectionLabel.TextColor3 = Colors.Highlight
 			SectionLabel.TextSize = 12
 			SectionLabel.AutomaticSize = Enum.AutomaticSize.X
@@ -1318,5 +1350,6 @@ function CrimsonUI:Notify(config)
 end
 
 CrimsonUI.Icons = Icons
+CrimsonUI.Themes = Themes
 
 return CrimsonUI
