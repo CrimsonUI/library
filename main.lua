@@ -1,14 +1,14 @@
 local CrimsonUI = {}
 
 local Colors = {
-    Background     = Color3.fromRGB(30, 30, 36),
-    Secondary      = Color3.fromRGB(40, 40, 46),
-    Accent         = Color3.fromRGB(65, 20, 30),
-    Primary        = Color3.fromRGB(180, 25, 45),
-    Highlight      = Color3.fromRGB(220, 35, 55),
-    Bright         = Color3.fromRGB(255, 50, 70),
-    Text           = Color3.fromRGB(245, 245, 245),
-    TextDark       = Color3.fromRGB(180, 180, 180)
+    Background = Color3.fromRGB(30, 30, 36),
+    Secondary = Color3.fromRGB(40, 40, 46),
+    Accent = Color3.fromRGB(65, 20, 30),
+    Primary = Color3.fromRGB(180, 25, 45),
+    Highlight = Color3.fromRGB(220, 35, 55),
+    Bright = Color3.fromRGB(255, 50, 70),
+    Text = Color3.fromRGB(245, 245, 245),
+    TextDark = Color3.fromRGB(180, 180, 180)
 }
 
 local Icons = {
