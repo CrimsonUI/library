@@ -124,7 +124,8 @@ local function CreateLoadingScreen(parent, config)
 	local LoadingFrame = Instance.new("Frame")
 	LoadingFrame.Name = "LoadingScreen"
 	LoadingFrame.BackgroundColor3 = Colors.Background
-	LoadingFrame.Size = UDim2.new(1, 0, 1, 0)
+	LoadingFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
+	LoadingFrame.Size = UDim2.new(0, 300, 0, 200)
 	LoadingFrame.ZIndex = 100
 	LoadingFrame.Parent = parent
 
@@ -132,33 +133,35 @@ local function CreateLoadingScreen(parent, config)
 	LoadingCorner.CornerRadius = UDim.new(0, 12)
 	LoadingCorner.Parent = LoadingFrame
 
+	CreateGlow(LoadingFrame)
+
 	local Title = Instance.new("TextLabel")
 	Title.BackgroundTransparency = 1
-	Title.Position = UDim2.new(0.5, 0, 0.4, 0)
-	Title.AnchorPoint = Vector2.new(0.5, 0.5)
-	Title.Size = UDim2.new(0.8, 0, 0, 40)
+	Title.Position = UDim2.new(0.5, 0, 0, 40)
+	Title.AnchorPoint = Vector2.new(0.5, 0)
+	Title.Size = UDim2.new(0.9, 0, 0, 40)
 	Title.Font = Enum.Font.GothamBold
 	Title.Text = config.LoadingTitle or "Crimson UI"
 	Title.TextColor3 = Colors.Text
-	Title.TextSize = 28
+	Title.TextSize = 24
 	Title.Parent = LoadingFrame
 
 	local Subtitle = Instance.new("TextLabel")
 	Subtitle.BackgroundTransparency = 1
-	Subtitle.Position = UDim2.new(0.5, 0, 0.5, 0)
-	Subtitle.AnchorPoint = Vector2.new(0.5, 0.5)
-	Subtitle.Size = UDim2.new(0.8, 0, 0, 20)
+	Subtitle.Position = UDim2.new(0.5, 0, 0, 80)
+	Subtitle.AnchorPoint = Vector2.new(0.5, 0)
+	Subtitle.Size = UDim2.new(0.9, 0, 0, 20)
 	Subtitle.Font = Enum.Font.Gotham
 	Subtitle.Text = config.LoadingSubtitle or "by Luca Davincci"
 	Subtitle.TextColor3 = Colors.TextDark
-	Subtitle.TextSize = 16
+	Subtitle.TextSize = 14
 	Subtitle.Parent = LoadingFrame
 
 	local Spinner = Instance.new("ImageLabel")
 	Spinner.BackgroundTransparency = 1
-	Spinner.Position = UDim2.new(0.5, 0, 0.6, 0)
-	Spinner.AnchorPoint = Vector2.new(0.5, 0.5)
-	Spinner.Size = UDim2.new(0, 48, 0, 48)
+	Spinner.Position = UDim2.new(0.5, 0, 0, 130)
+	Spinner.AnchorPoint = Vector2.new(0.5, 0)
+	Spinner.Size = UDim2.new(0, 40, 0, 40)
 	Spinner.Image = "rbxassetid://6031097225"
 	Spinner.ImageColor3 = Colors.Highlight
 	Spinner.Parent = LoadingFrame
@@ -167,11 +170,22 @@ local function CreateLoadingScreen(parent, config)
 	spinTween:Play()
 
 	return {
-		Hide = function()
-			Tween(LoadingFrame, {BackgroundTransparency = 1}, 0.4)
-			Tween(Title, {TextTransparency = 1}, 0.4)
-			Tween(Subtitle, {TextTransparency = 1}, 0.4)
-			Tween(Spinner, {ImageTransparency = 1}, 0.4)
+		LoadingFrame = LoadingFrame,
+		Hide = function(mainFrame)
+			-- Tween loading screen to main window position and size
+			Tween(LoadingFrame, {
+				Position = UDim2.new(0.5, -300, 0.5, -200),
+				Size = UDim2.new(0, 600, 0, 400)
+			}, 0.5)
+			Tween(Title, {TextTransparency = 1}, 0.3)
+			Tween(Subtitle, {TextTransparency = 1}, 0.3)
+			Tween(Spinner, {ImageTransparency = 1}, 0.3)
+			
+			task.delay(0.3, function()
+				mainFrame.Visible = true
+				mainFrame.Size = UDim2.new(0, 600, 0, 400)
+			end)
+			
 			task.delay(0.5, function()
 				LoadingFrame:Destroy()
 			end)
@@ -890,7 +904,7 @@ function CrimsonUI:CreateWindow(config)
 
 			local DropdownList = Instance.new("Frame")
 			DropdownList.BackgroundTransparency = 1
-			DropdownList.Position = UDim2.new(0.5, 4, 1, 4)
+			DropdownList.Position = UDim2.new(0.5, 4, 0, isMobile and 58 or 42)
 			DropdownList.Size = UDim2.new(0.5, -16, 0, 0)
 			DropdownList.Parent = DropdownFrame
 
@@ -1265,10 +1279,13 @@ function CrimsonUI:CreateWindow(config)
 			Window.CurrentTab = Tab
 
 			if loadingScreen then
-				task.delay(0.5, loadingScreen.Hide)
+				task.delay(0.5, function()
+					loadingScreen.Hide(MainFrame)
+				end)
+			else
+				MainFrame.Visible = true
+				Tween(MainFrame, {Size = UDim2.new(0, 600, 0, 400)}, 0.5)
 			end
-			MainFrame.Visible = true
-			Tween(MainFrame, {Size = UDim2.new(0, 600, 0, 400)}, 0.5)
 		end
 
 		return Tab
