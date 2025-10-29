@@ -1,7 +1,7 @@
--- CrimsonUI
+-- » CrimsonUI
 local CrimsonUI = {}
 
--- Colors
+-- » Colors
 local Colors = {
     Background = Color3.fromRGB(30, 30, 36),
     Secondary = Color3.fromRGB(40, 40, 46),
@@ -13,7 +13,7 @@ local Colors = {
     TextDark = Color3.fromRGB(180, 180, 180)
 }
 
--- Themes
+-- » Themes
 local Themes = {
     Crimson = {
         Background = Color3.fromRGB(30, 30, 36),
@@ -167,13 +167,12 @@ local Themes = {
     }
 }
 
-
--- Services
+-- » Services
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local isMobile = UserInputService.TouchEnabled and not UserInputService.MouseEnabled
 
--- Helpers
+-- » Helpers
 local function Tween(obj, props, dur)
     local info = TweenInfo.new(dur or 0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
     local t = TweenService:Create(obj, info, props)
@@ -197,7 +196,7 @@ local function CreateGlow(parent)
     return glow
 end
 
--- Loading Screen
+-- » Loading Screen
 local function CreateLoadingScreen(parent, cfg)
     local frame = Instance.new("Frame")
     frame.Name = "LoadingScreen"
@@ -273,7 +272,7 @@ local function CreateLoadingScreen(parent, cfg)
     }
 end
 
--- Set Theme
+-- » Set Theme
 function CrimsonUI:SetTheme(name)
     if not Themes[name] then
         return
@@ -307,7 +306,7 @@ function CrimsonUI:SetTheme(name)
     end
 end
 
--- Create Window
+-- » Create Window
 function CrimsonUI:CreateWindow(cfg)
     UIElements = {}
     local config = {
@@ -378,19 +377,14 @@ function CrimsonUI:CreateWindow(cfg)
     minimize.BackgroundTransparency = 1
     minimize.Position = UDim2.new(1, -50, 0.5, -14)
     minimize.Size = UDim2.new(0, 28, 0, 28)
-    minimize.Text = ""
+    minimize.Text = "–"
+    minimize.TextColor3 = Colors.TextDark
+    minimize.Font = Enum.Font.GothamBold
+    minimize.TextSize = 20
     minimize.ZIndex = 10
     minimize.Parent = topbar
 
-    local minIcon = Instance.new("ImageLabel")
-    minIcon.Name = "Icon"
-    minIcon.BackgroundTransparency = 1
-    minIcon.Size = UDim2.new(1, 0, 1, 0)
-    minIcon.Image = Icons.Minimize
-    minIcon.ImageColor3 = Colors.TextDark
-    minIcon.Parent = minimize
-
-    -- Dragging
+    -- » Dragging
     local dragging = false
     local dragStart, startPos
     topbar.InputBegan:Connect(
@@ -431,27 +425,27 @@ function CrimsonUI:CreateWindow(cfg)
         end
     )
 
-    -- Minimize
+    -- » Minimize
     local minimized = false
     minimize.MouseButton1Click:Connect(
         function()
             minimized = not minimized
             Tween(main, {Size = minimized and UDim2.new(0, 600, 0, 45) or UDim2.new(0, 600, 0, 400)}, 0.3)
-            Tween(minIcon, {Rotation = minimized and 180 or 0}, 0.3)
+            Tween(minimize, {Rotation = minimized and 0 or 0}, 0.3)
         end
     )
     minimize.MouseEnter:Connect(
         function()
-            Tween(minIcon, {ImageColor3 = Colors.Highlight}, 0.2)
+            Tween(minimize, {TextColor3 = Colors.Highlight}, 0.2)
         end
     )
     minimize.MouseLeave:Connect(
         function()
-            Tween(minIcon, {ImageColor3 = Colors.TextDark}, 0.2)
+            Tween(minimize, {TextColor3 = Colors.TextDark}, 0.2)
         end
     )
 
-    -- Tabs
+    -- » Tabs
     local tabContainer = Instance.new("Frame")
     tabContainer.Name = "Tabs"
     tabContainer.BackgroundColor3 = Colors.Secondary
@@ -480,7 +474,7 @@ function CrimsonUI:CreateWindow(cfg)
     content.Size = UDim2.new(1, 0, 1, -90)
     content.Parent = main
 
-    -- Window
+    -- » Window
     local window = {Tabs = {}, Current = nil}
 
     function window:CreateTab(cfg)
@@ -569,7 +563,7 @@ function CrimsonUI:CreateWindow(cfg)
             end
         )
 
-        -- Button
+        -- » Button
         function tab:CreateButton(cfg)
             local b = {
                 Name = cfg.Name or "Button",
@@ -630,7 +624,7 @@ function CrimsonUI:CreateWindow(cfg)
             return button
         end
 
-        -- Toggle
+        -- » Toggle
         function tab:CreateToggle(cfg)
             local t = {
                 Name = cfg.Name or "Toggle",
@@ -718,7 +712,7 @@ function CrimsonUI:CreateWindow(cfg)
             }
         end
 
-        -- Slider
+        -- » Slider
         function tab:CreateSlider(cfg)
             local s = {
                 Name = cfg.Name or "Slider",
@@ -853,7 +847,7 @@ function CrimsonUI:CreateWindow(cfg)
             }
         end
 
-        -- Input
+        -- » Input
         function tab:CreateInput(cfg)
             local i = {
                 Name = cfg.Name or "Input",
@@ -944,7 +938,7 @@ function CrimsonUI:CreateWindow(cfg)
             return box
         end
 
-        -- Dropdown
+        -- » Dropdown
         function tab:CreateDropdown(cfg)
             local d = {
                 Name = cfg.Name or "Dropdown",
@@ -999,12 +993,14 @@ function CrimsonUI:CreateWindow(cfg)
             btnCorner.CornerRadius = UDim.new(0, 6)
             btnCorner.Parent = btn
 
-            local icon = Instance.new("ImageLabel")
+            local icon = Instance.new("TextLabel")
             icon.BackgroundTransparency = 1
             icon.Position = UDim2.new(1, -22, 0.5, -8)
             icon.Size = UDim2.new(0, 16, 0, 16)
-            icon.Image = Icons.DownArrow
-            icon.ImageColor3 = Colors.TextDark
+            icon.Text = "↓"
+            icon.TextColor3 = Colors.TextDark
+            icon.Font = Enum.Font.GothamBold
+            icon.TextSize = 14
             icon.Parent = btn
 
             local list = Instance.new("Frame")
@@ -1104,7 +1100,7 @@ function CrimsonUI:CreateWindow(cfg)
             }
         end
 
-        -- Color Picker
+        -- » Color Picker
         function tab:CreateColorPicker(cfg)
             local c = {
                 Name = cfg.Name or "Color Picker",
@@ -1176,7 +1172,7 @@ function CrimsonUI:CreateWindow(cfg)
             }
         end
 
-        -- Label
+        -- » Label
         function tab:CreateLabel(text)
             local frame = Instance.new("Frame")
             frame.BackgroundColor3 = Colors.Secondary
@@ -1203,7 +1199,7 @@ function CrimsonUI:CreateWindow(cfg)
             }
         end
 
-        -- Paragraph
+        -- » Paragraph
         function tab:CreateParagraph(cfg)
             local p = {
                 Title = cfg.Title or "Paragraph",
@@ -1256,7 +1252,7 @@ function CrimsonUI:CreateWindow(cfg)
             }
         end
 
-        -- Keybind
+        -- » Keybind
         function tab:CreateKeybind(cfg)
             local k = {
                 Name = cfg.Name or "Keybind",
@@ -1370,7 +1366,7 @@ function CrimsonUI:CreateWindow(cfg)
             }
         end
 
-        -- Section
+        -- » Section
         function tab:CreateSection(name)
             local frame = Instance.new("Frame")
             frame.BackgroundTransparency = 1
@@ -1425,7 +1421,7 @@ function CrimsonUI:CreateWindow(cfg)
     return window
 end
 
--- Destroy
+-- » Destroy
 function CrimsonUI:Destroy()
     local gui = game:GetService("CoreGui"):FindFirstChild("CrimsonUI")
     if gui then
@@ -1433,7 +1429,7 @@ function CrimsonUI:Destroy()
     end
 end
 
--- Notify
+-- » Notify
 function CrimsonUI:Notify(cfg)
     local n = {
         Title = cfg.Title or "Notification",
@@ -1462,18 +1458,10 @@ function CrimsonUI:Notify(cfg)
     corner.Parent = frame
     CreateGlow(frame)
 
-    local icon = Instance.new("ImageLabel")
-    icon.BackgroundTransparency = 1
-    icon.Position = UDim2.new(0, 12, 0.5, -20)
-    icon.Size = UDim2.new(0, 40, 0, 40)
-    icon.Image = n.Image
-    icon.ImageColor3 = Colors.Highlight
-    icon.Parent = frame
-
     local title = Instance.new("TextLabel")
     title.BackgroundTransparency = 1
-    title.Position = UDim2.new(0, 64, 0, 12)
-    title.Size = UDim2.new(1, -76, 0, 18)
+    title.Position = UDim2.new(0, 12, 0, 12)
+    title.Size = UDim2.new(1, -24, 0, 18)
     title.Font = Enum.Font.GothamBold
     title.Text = n.Title
     title.TextColor3 = Colors.Text
@@ -1483,8 +1471,8 @@ function CrimsonUI:Notify(cfg)
 
     local content = Instance.new("TextLabel")
     content.BackgroundTransparency = 1
-    content.Position = UDim2.new(0, 64, 0, 32)
-    content.Size = UDim2.new(1, -76, 0, 36)
+    content.Position = UDim2.new(0, 12, 0, 32)
+    content.Size = UDim2.new(1, -24, 0, 36)
     content.Font = Enum.Font.Gotham
     content.Text = n.Content
     content.TextColor3 = Colors.TextDark
