@@ -1062,6 +1062,12 @@ function CrimsonUI:CreateWindow(config)
 					
 					isOpen = false
 					DropdownListContainer.Visible = false
+					
+					-- Disconnect the click outside listener
+					if dropdownConnection then
+						dropdownConnection:Disconnect()
+						dropdownConnection = nil
+					end
 				end)
 
 				OptionButton.MouseEnter:Connect(function()
@@ -1076,12 +1082,52 @@ function CrimsonUI:CreateWindow(config)
 			ListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateListSize)
 			task.spawn(updateListSize)
 
+			local dropdownConnection
+			
 			DropdownButton.MouseButton1Click:Connect(function()
 				isOpen = not isOpen
 				DropdownListContainer.Visible = isOpen
 				
 				if isOpen then
 					updateListSize()
+					
+					-- Set up click outside detection when opened
+					if dropdownConnection then
+						dropdownConnection:Disconnect()
+					end
+					
+					task.wait(0.1) -- Small delay to prevent immediate closure
+					
+					dropdownConnection = UserInputService.InputBegan:Connect(function(input)
+						if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+							local mousePos = input.Position
+							local listPos = DropdownListContainer.AbsolutePosition
+							local listSize = DropdownListContainer.AbsoluteSize
+							local buttonPos = DropdownButton.AbsolutePosition
+							local buttonSize = DropdownButton.AbsoluteSize
+							
+							local inList = mousePos.X >= listPos.X and mousePos.X <= listPos.X + listSize.X and
+							               mousePos.Y >= listPos.Y and mousePos.Y <= listPos.Y + listSize.Y
+							               
+							local inButton = mousePos.X >= buttonPos.X and mousePos.X <= buttonPos.X + buttonSize.X and
+							                 mousePos.Y >= buttonPos.Y and mousePos.Y <= buttonPos.Y + buttonSize.Y
+							
+							if not inList and not inButton then
+								isOpen = false
+								DropdownListContainer.Visible = false
+								if dropdownConnection then
+									dropdownConnection:Disconnect()
+									dropdownConnection = nil
+								end
+							end
+						end
+					end)
+				else
+					-- Disconnect when closed
+					if dropdownConnection then
+						dropdownConnection:Disconnect()
+						dropdownConnection = nil
+					end
 				end
 			end)
 
@@ -1091,30 +1137,6 @@ function CrimsonUI:CreateWindow(config)
 
 			DropdownButton.MouseLeave:Connect(function()
 				Tween(DropdownButton, {BackgroundColor3 = Colors.Accent}, 0.2)
-			end)
-
-			-- Close dropdown when clicking outside
-			UserInputService.InputBegan:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-					if isOpen then
-						local mousePos = input.Position
-						local dropdownPos = DropdownFrame.AbsolutePosition
-						local dropdownSize = DropdownFrame.AbsoluteSize
-						local listPos = DropdownListContainer.AbsolutePosition
-						local listSize = DropdownListContainer.AbsoluteSize
-						
-						local inDropdown = mousePos.X >= dropdownPos.X and mousePos.X <= dropdownPos.X + dropdownSize.X and
-						                   mousePos.Y >= dropdownPos.Y and mousePos.Y <= dropdownPos.Y + dropdownSize.Y
-						                   
-						local inList = mousePos.X >= listPos.X and mousePos.X <= listPos.X + listSize.X and
-						               mousePos.Y >= listPos.Y and mousePos.Y <= listPos.Y + listSize.Y
-						
-						if not inDropdown and not inList then
-							isOpen = false
-							DropdownListContainer.Visible = false
-						end
-					end
-				end
 			end)
 
 			return {
