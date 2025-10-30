@@ -324,7 +324,9 @@ SettingsTab:CreateDropdown({
 })
 ```
 
-Theme Customization
+---
+
+# Theme Customization
 
 The library includes 15 built-in themes:
 
@@ -343,6 +345,8 @@ The library includes 15 built-in themes:
 · Indigo: Deep purple theme
 · Teal: Blue-green theme
 · Plum: Purple-pink theme
+
+---
 
 Mobile Support
 
