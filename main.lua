@@ -245,8 +245,16 @@ local function CreateLoadingScreen(parent, config)
 	Spinner.TextSize = 32
 	Spinner.Parent = LoadingFrame
 
-	local spinTween = TweenService:Create(Spinner, TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1), {Rotation = 360})
-	spinTween:Play()
+	local spinChars = {"|", "/", "—", "\\"}
+	local currentChar = 1
+	
+	task.spawn(function()
+		while LoadingFrame.Parent do
+			Spinner.Text = spinChars[currentChar]
+			currentChar = currentChar % #spinChars + 1
+			task.wait(0.15)
+		end
+	end)
 
 	return {
 		LoadingFrame = LoadingFrame,
@@ -991,12 +999,11 @@ function CrimsonUI:CreateWindow(config)
 			DropdownButtonCorner.CornerRadius = UDim.new(0, 6)
 			DropdownButtonCorner.Parent = DropdownButton
 
-			
 			local DropdownListContainer = Instance.new("Frame")
 			DropdownListContainer.Name = "DropdownList"
 			DropdownListContainer.BackgroundTransparency = 1
-			DropdownListContainer.Position = UDim2.new(1, 8, 0, 0)
-			DropdownListContainer.Size = UDim2.new(0, 250, 0, 0)
+			DropdownListContainer.Position = UDim2.new(0.5, 4, 1, 8)
+			DropdownListContainer.Size = UDim2.new(0.5, -16, 0, 0)
 			DropdownListContainer.Visible = false
 			DropdownListContainer.ZIndex = 255
 			DropdownListContainer.Parent = DropdownFrame
@@ -1037,7 +1044,7 @@ function CrimsonUI:CreateWindow(config)
 				local maxHeight = 200
 				local finalHeight = math.min(contentHeight, maxHeight)
 				
-				DropdownListContainer.Size = UDim2.new(0, 250, 0, finalHeight)
+				DropdownListContainer.Size = UDim2.new(0.5, -16, 0, finalHeight)
 				DropdownList.CanvasSize = UDim2.new(0, 0, 0, contentHeight)
 			end
 
@@ -1066,7 +1073,6 @@ function CrimsonUI:CreateWindow(config)
 					isOpen = false
 					DropdownListContainer.Visible = false
 					
-					
 					if dropdownConnection then
 						dropdownConnection:Disconnect()
 						dropdownConnection = nil
@@ -1094,12 +1100,11 @@ function CrimsonUI:CreateWindow(config)
 				if isOpen then
 					updateListSize()
 					
-				
 					if dropdownConnection then
 						dropdownConnection:Disconnect()
 					end
 					
-					task.wait(0.1) 
+					task.wait(0.1)
 					
 					dropdownConnection = UserInputService.InputBegan:Connect(function(input)
 						if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
@@ -1126,7 +1131,6 @@ function CrimsonUI:CreateWindow(config)
 						end
 					end)
 				else
-					
 					if dropdownConnection then
 						dropdownConnection:Disconnect()
 						dropdownConnection = nil
@@ -1199,7 +1203,6 @@ function CrimsonUI:CreateWindow(config)
 			ColorDisplayCorner.CornerRadius = UDim.new(0, 6)
 			ColorDisplayCorner.Parent = ColorDisplay
 
-			
 			local function CreateColorPickerPopup()
 				local Popup = Instance.new("Frame")
 				Popup.Name = "ColorPickerPopup"
@@ -1217,7 +1220,6 @@ function CrimsonUI:CreateWindow(config)
 
 				local PopupGlow = CreateGlow(Popup)
 
-				
 				local PopupTitle = Instance.new("TextLabel")
 				PopupTitle.BackgroundTransparency = 1
 				PopupTitle.Position = UDim2.new(0, 15, 0, 10)
@@ -1229,7 +1231,6 @@ function CrimsonUI:CreateWindow(config)
 				PopupTitle.TextXAlignment = Enum.TextXAlignment.Left
 				PopupTitle.Parent = Popup
 
-				
 				local CloseButton = Instance.new("TextButton")
 				CloseButton.BackgroundTransparency = 1
 				CloseButton.Position = UDim2.new(1, -35, 0, 10)
@@ -1244,7 +1245,6 @@ function CrimsonUI:CreateWindow(config)
 					Popup.Visible = false
 				end)
 
-				
 				local ColorPreview = Instance.new("Frame")
 				ColorPreview.BackgroundColor3 = colorConfig.Color
 				ColorPreview.BorderSizePixel = 0
@@ -1256,7 +1256,6 @@ function CrimsonUI:CreateWindow(config)
 				PreviewCorner.CornerRadius = UDim.new(0, 8)
 				PreviewCorner.Parent = ColorPreview
 
-				
 				local function createRGBInput(name, yPos, defaultValue)
 					local Container = Instance.new("Frame")
 					Container.BackgroundTransparency = 1
@@ -1297,7 +1296,6 @@ function CrimsonUI:CreateWindow(config)
 				local GInput = createRGBInput("G", 155, math.floor(colorConfig.Color.G * 255))
 				local BInput = createRGBInput("B", 195, math.floor(colorConfig.Color.B * 255))
 
-				
 				local HexLabel = Instance.new("TextLabel")
 				HexLabel.BackgroundTransparency = 1
 				HexLabel.Position = UDim2.new(0, 15, 0, 235)
@@ -1329,7 +1327,6 @@ function CrimsonUI:CreateWindow(config)
 				HexCorner.CornerRadius = UDim.new(0, 6)
 				HexCorner.Parent = HexInput
 
-				
 				local function updateFromRGB()
 					local r = math.clamp(tonumber(RInput.Text) or 0, 0, 255)
 					local g = math.clamp(tonumber(GInput.Text) or 0, 0, 255)
