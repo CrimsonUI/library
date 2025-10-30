@@ -885,14 +885,6 @@ function CrimsonUI:CreateWindow(config)
 			InputCorner.CornerRadius = UDim.new(0, 8)
 			InputCorner.Parent = InputFrame
 
-			local Hitbox = Instance.new("TextButton")
-			Hitbox.BackgroundTransparency = 1
-			Hitbox.Size = UDim2.new(1, isMobile and 20 or 0, 1, isMobile and 20 or 0)
-			Hitbox.Position = UDim2.new(0, isMobile and -10 or 0, 0, isMobile and -10 or 0)
-			Hitbox.Text = ""
-			Hitbox.ZIndex = 2
-			Hitbox.Parent = InputFrame
-
 			local InputLabel = Instance.new("TextLabel")
 			InputLabel.BackgroundTransparency = 1
 			InputLabel.Position = UDim2.new(0, 12, 0, 8)
@@ -916,6 +908,7 @@ function CrimsonUI:CreateWindow(config)
 			InputBox.TextColor3 = Colors.Text
 			InputBox.TextSize = 13
 			InputBox.TextXAlignment = Enum.TextXAlignment.Left
+			InputBox.ClearTextOnFocus = false
 			InputBox.Parent = InputFrame
 
 			local InputBoxCorner = Instance.new("UICorner")
@@ -971,18 +964,10 @@ function CrimsonUI:CreateWindow(config)
 			DropdownCorner.CornerRadius = UDim.new(0, 8)
 			DropdownCorner.Parent = DropdownFrame
 
-			local Hitbox = Instance.new("TextButton")
-			Hitbox.BackgroundTransparency = 1
-			Hitbox.Size = UDim2.new(1, isMobile and 20 or 0, 1, isMobile and 20 or 0)
-			Hitbox.Position = UDim2.new(0, isMobile and -10 or 0, 0, isMobile and -10 or 0)
-			Hitbox.Text = ""
-			Hitbox.ZIndex = 2
-			Hitbox.Parent = DropdownFrame
-
 			local DropdownLabel = Instance.new("TextLabel")
 			DropdownLabel.BackgroundTransparency = 1
 			DropdownLabel.Position = UDim2.new(0, 12, 0, 0)
-			DropdownLabel.Size = UDim2.new(0.5, 0, 1, 0)
+			DropdownLabel.Size = UDim2.new(0.5, 0, 0, isMobile and 54 or 38)
 			DropdownLabel.Font = Enum.Font.GothamMedium
 			DropdownLabel.Text = dropdownConfig.Name
 			DropdownLabel.TextColor3 = Colors.Text
@@ -997,19 +982,36 @@ function CrimsonUI:CreateWindow(config)
 			DropdownButton.Size = UDim2.new(0.5, -16, 0, 26)
 			DropdownButton.AutoButtonColor = false
 			DropdownButton.Font = Enum.Font.Gotham
-			DropdownButton.Text = dropdownConfig.CurrentOption
+			DropdownButton.Text = ""
 			DropdownButton.TextColor3 = Colors.Text
 			DropdownButton.TextSize = 12
 			DropdownButton.TextXAlignment = Enum.TextXAlignment.Left
+			DropdownButton.ClipsDescendants = true
 			DropdownButton.Parent = DropdownFrame
 
 			local DropdownButtonCorner = Instance.new("UICorner")
 			DropdownButtonCorner.CornerRadius = UDim.new(0, 6)
 			DropdownButtonCorner.Parent = DropdownButton
 
+			local DropdownButtonPadding = Instance.new("UIPadding")
+			DropdownButtonPadding.PaddingLeft = UDim.new(0, 8)
+			DropdownButtonPadding.PaddingRight = UDim.new(0, 28)
+			DropdownButtonPadding.Parent = DropdownButton
+
+			local DropdownText = Instance.new("TextLabel")
+			DropdownText.BackgroundTransparency = 1
+			DropdownText.Size = UDim2.new(1, 0, 1, 0)
+			DropdownText.Font = Enum.Font.Gotham
+			DropdownText.Text = dropdownConfig.CurrentOption
+			DropdownText.TextColor3 = Colors.Text
+			DropdownText.TextSize = 12
+			DropdownText.TextXAlignment = Enum.TextXAlignment.Left
+			DropdownText.TextTruncate = Enum.TextTruncate.AtEnd
+			DropdownText.Parent = DropdownButton
+
 			local DropdownIcon = Instance.new("TextLabel")
 			DropdownIcon.BackgroundTransparency = 1
-			DropdownIcon.Position = UDim2.new(1, -22, 0.5, -8)
+			DropdownIcon.Position = UDim2.new(1, -20, 0.5, -8)
 			DropdownIcon.Size = UDim2.new(0, 16, 0, 16)
 			DropdownIcon.Font = Enum.Font.GothamBold
 			DropdownIcon.Text = Icons.DownArrow
@@ -1049,6 +1051,7 @@ function CrimsonUI:CreateWindow(config)
 				OptionButton.Text = option
 				OptionButton.TextColor3 = Colors.Text
 				OptionButton.TextSize = 12
+				OptionButton.TextTruncate = Enum.TextTruncate.AtEnd
 				OptionButton.Parent = DropdownList
 
 				local OptionCorner = Instance.new("UICorner")
@@ -1057,7 +1060,7 @@ function CrimsonUI:CreateWindow(config)
 
 				OptionButton.MouseButton1Click:Connect(function()
 					dropdownConfig.CurrentOption = option
-					DropdownButton.Text = option
+					DropdownText.Text = option
 					dropdownConfig.Callback(option)
 					isOpen = false
 					Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)}, 0.3)
@@ -1076,7 +1079,7 @@ function CrimsonUI:CreateWindow(config)
 			ListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateListSize)
 			task.spawn(updateListSize)
 
-			Hitbox.MouseButton1Click:Connect(function()
+			DropdownButton.MouseButton1Click:Connect(function()
 				isOpen = not isOpen
 				if isOpen then
 					updateListSize()
@@ -1101,7 +1104,7 @@ function CrimsonUI:CreateWindow(config)
 				Set = function(option)
 					if table.find(dropdownConfig.Options, option) then
 						dropdownConfig.CurrentOption = option
-						DropdownButton.Text = option
+						DropdownText.Text = option
 					end
 				end
 			}
@@ -1156,6 +1159,13 @@ function CrimsonUI:CreateWindow(config)
 
 			Hitbox.MouseButton1Click:Connect(function()
 				colorConfig.Callback(colorConfig.Color)
+				
+				CrimsonUI:Notify({
+					Title = "Color Picker",
+					Content = "RGB: " .. math.floor(colorConfig.Color.R * 255) .. ", " .. math.floor(colorConfig.Color.G * 255) .. ", " .. math.floor(colorConfig.Color.B * 255),
+					Duration = 3,
+					Icon = "🎨"
+				})
 			end)
 
 			ColorFrame.MouseEnter:Connect(function()
@@ -1378,7 +1388,7 @@ function CrimsonUI:CreateWindow(config)
 			SectionLabel.AnchorPoint = Vector2.new(0.5, 0.5)
 			SectionLabel.Size = UDim2.new(0, 0, 0, 18)
 			SectionLabel.Font = Enum.Font.GothamBold
-			SectionLabel.Text = (name or "Section")
+			SectionLabel.Text = " " .. (name or "Section") .. " "
 			SectionLabel.TextColor3 = Colors.Highlight
 			SectionLabel.TextSize = 12
 			SectionLabel.AutomaticSize = Enum.AutomaticSize.X
