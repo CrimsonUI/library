@@ -991,14 +991,14 @@ function CrimsonUI:CreateWindow(config)
 			DropdownButtonCorner.CornerRadius = UDim.new(0, 6)
 			DropdownButtonCorner.Parent = DropdownButton
 
-			-- Floating dropdown list container (appears to the right)
+			-- Floating dropdown list container (appears to the right) with HIGHER Z-INDEX
 			local DropdownListContainer = Instance.new("Frame")
 			DropdownListContainer.Name = "DropdownList"
 			DropdownListContainer.BackgroundTransparency = 1
 			DropdownListContainer.Position = UDim2.new(1, 8, 0, 0)
 			DropdownListContainer.Size = UDim2.new(0, 250, 0, 0)
 			DropdownListContainer.Visible = false
-			DropdownListContainer.ZIndex = 100
+			DropdownListContainer.ZIndex = 250
 			DropdownListContainer.Parent = DropdownFrame
 
 			local DropdownList = Instance.new("ScrollingFrame")
@@ -1008,6 +1008,7 @@ function CrimsonUI:CreateWindow(config)
 			DropdownList.ScrollBarThickness = 4
 			DropdownList.ScrollBarImageColor3 = Colors.Highlight
 			DropdownList.CanvasSize = UDim2.new(0, 0, 0, 0)
+			DropdownList.ZIndex = 251
 			DropdownList.Parent = DropdownListContainer
 
 			local DropdownListCorner = Instance.new("UICorner")
@@ -1015,6 +1016,7 @@ function CrimsonUI:CreateWindow(config)
 			DropdownListCorner.Parent = DropdownList
 
 			local ListGlow = CreateGlow(DropdownList)
+			ListGlow.ZIndex = 250
 			
 			local ListLayout = Instance.new("UIListLayout")
 			ListLayout.Padding = UDim.new(0, 4)
@@ -1049,6 +1051,7 @@ function CrimsonUI:CreateWindow(config)
 				OptionButton.Text = option
 				OptionButton.TextColor3 = Colors.Text
 				OptionButton.TextSize = 13
+				OptionButton.ZIndex = 252
 				OptionButton.Parent = DropdownList
 
 				local OptionCorner = Instance.new("UICorner")
