@@ -429,6 +429,7 @@ function CrimsonUI:CreateWindow(config)
 	ContentContainer.BackgroundTransparency = 1
 	ContentContainer.Position = UDim2.new(0, 0, 0, 90)
 	ContentContainer.Size = UDim2.new(1, 0, 1, -90)
+	ContentContainer.ClipsDescendants = false
 	ContentContainer.Parent = MainFrame
 
 	local dragging = false
@@ -527,6 +528,7 @@ function CrimsonUI:CreateWindow(config)
 		TabContent.ScrollBarImageColor3 = Colors.Highlight
 		TabContent.CanvasSize = UDim2.new(0, 0, 0, 0)
 		TabContent.Visible = false
+		TabContent.ClipsDescendants = false
 		TabContent.Parent = ContentContainer
 		table.insert(UIElements, {Type = "ScrollBar", Object = TabContent})
 
@@ -965,6 +967,7 @@ function CrimsonUI:CreateWindow(config)
 			DropdownFrame.BackgroundColor3 = Colors.Secondary
 			DropdownFrame.BorderSizePixel = 0
 			DropdownFrame.Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)
+			DropdownFrame.ClipsDescendants = false
 			DropdownFrame.Parent = TabContent
 
 			local DropdownCorner = Instance.new("UICorner")
@@ -1015,7 +1018,7 @@ function CrimsonUI:CreateWindow(config)
 			DropdownList.ScrollBarThickness = 4
 			DropdownList.ScrollBarImageColor3 = Colors.Highlight
 			DropdownList.CanvasSize = UDim2.new(0, 0, 0, 0)
-			DropdownList.ZIndex = 251
+			DropdownList.ZIndex = 1001
 			DropdownList.Parent = DropdownListContainer
 
 			local DropdownListCorner = Instance.new("UICorner")
@@ -1023,7 +1026,7 @@ function CrimsonUI:CreateWindow(config)
 			DropdownListCorner.Parent = DropdownList
 
 			local ListGlow = CreateGlow(DropdownList)
-			ListGlow.ZIndex = 250
+			ListGlow.ZIndex = 1000
 			
 			local ListLayout = Instance.new("UIListLayout")
 			ListLayout.Padding = UDim.new(0, 4)
@@ -1058,7 +1061,7 @@ function CrimsonUI:CreateWindow(config)
 				OptionButton.Text = option
 				OptionButton.TextColor3 = Colors.Text
 				OptionButton.TextSize = 13
-				OptionButton.ZIndex = 252
+				OptionButton.ZIndex = 1002
 				OptionButton.Parent = DropdownList
 
 				local OptionCorner = Instance.new("UICorner")
