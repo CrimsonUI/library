@@ -1,4 +1,4 @@
-## Crimson UI - Roblox GUI Library
+# Crimson UI - Roblox GUI Library
 
 Overview
 
@@ -32,7 +32,7 @@ UI Elements
 Installation
 
 ```lua
-local CrimsonUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/your-repo/CrimsonUI/main/CrimsonUI.lua"))()
+local CrimsonUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/CrimsonUI/library/refs/heads/main/main.lua"))()
 ```
 
 Quick Start
