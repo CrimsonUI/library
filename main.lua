@@ -240,7 +240,7 @@ local function CreateLoadingScreen(parent, config)
 	Spinner.AnchorPoint = Vector2.new(0.5, 0)
 	Spinner.Size = UDim2.new(0, 40, 0, 40)
 	Spinner.Font = Enum.Font.GothamBold
-	Spinner.Text = "◌"
+	Spinner.Text = "|"
 	Spinner.TextColor3 = Colors.Highlight
 	Spinner.TextSize = 32
 	Spinner.Parent = LoadingFrame
