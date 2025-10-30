@@ -957,7 +957,6 @@ function CrimsonUI:CreateWindow(config)
 			DropdownFrame.BackgroundColor3 = Colors.Secondary
 			DropdownFrame.BorderSizePixel = 0
 			DropdownFrame.Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)
-			DropdownFrame.ClipsDescendants = true
 			DropdownFrame.Parent = TabContent
 
 			local DropdownCorner = Instance.new("UICorner")
@@ -967,7 +966,7 @@ function CrimsonUI:CreateWindow(config)
 			local DropdownLabel = Instance.new("TextLabel")
 			DropdownLabel.BackgroundTransparency = 1
 			DropdownLabel.Position = UDim2.new(0, 12, 0, 0)
-			DropdownLabel.Size = UDim2.new(0.5, 0, 0, isMobile and 54 or 38)
+			DropdownLabel.Size = UDim2.new(0.5, 0, 1, 0)
 			DropdownLabel.Font = Enum.Font.GothamMedium
 			DropdownLabel.Text = dropdownConfig.Name
 			DropdownLabel.TextColor3 = Colors.Text
@@ -976,82 +975,80 @@ function CrimsonUI:CreateWindow(config)
 			DropdownLabel.Parent = DropdownFrame
 
 			local DropdownButton = Instance.new("TextButton")
-			DropdownButton.BackgroundColor3 = Colors.Background
+			DropdownButton.BackgroundColor3 = Colors.Accent
 			DropdownButton.BorderSizePixel = 0
 			DropdownButton.Position = UDim2.new(0.5, 4, 0.5, -13)
 			DropdownButton.Size = UDim2.new(0.5, -16, 0, 26)
 			DropdownButton.AutoButtonColor = false
 			DropdownButton.Font = Enum.Font.Gotham
-			DropdownButton.Text = ""
+			DropdownButton.Text = dropdownConfig.CurrentOption
 			DropdownButton.TextColor3 = Colors.Text
 			DropdownButton.TextSize = 12
-			DropdownButton.TextXAlignment = Enum.TextXAlignment.Left
-			DropdownButton.ClipsDescendants = true
+			DropdownButton.TextTruncate = Enum.TextTruncate.AtEnd
 			DropdownButton.Parent = DropdownFrame
 
 			local DropdownButtonCorner = Instance.new("UICorner")
 			DropdownButtonCorner.CornerRadius = UDim.new(0, 6)
 			DropdownButtonCorner.Parent = DropdownButton
 
-			local DropdownButtonPadding = Instance.new("UIPadding")
-			DropdownButtonPadding.PaddingLeft = UDim.new(0, 8)
-			DropdownButtonPadding.PaddingRight = UDim.new(0, 28)
-			DropdownButtonPadding.Parent = DropdownButton
+			-- Floating dropdown list container (appears to the right)
+			local DropdownListContainer = Instance.new("Frame")
+			DropdownListContainer.Name = "DropdownList"
+			DropdownListContainer.BackgroundTransparency = 1
+			DropdownListContainer.Position = UDim2.new(1, 8, 0, 0)
+			DropdownListContainer.Size = UDim2.new(0, 250, 0, 0)
+			DropdownListContainer.Visible = false
+			DropdownListContainer.ZIndex = 100
+			DropdownListContainer.Parent = DropdownFrame
 
-			local DropdownText = Instance.new("TextLabel")
-			DropdownText.BackgroundTransparency = 1
-			DropdownText.Size = UDim2.new(1, 0, 1, 0)
-			DropdownText.Font = Enum.Font.Gotham
-			DropdownText.Text = dropdownConfig.CurrentOption
-			DropdownText.TextColor3 = Colors.Text
-			DropdownText.TextSize = 12
-			DropdownText.TextXAlignment = Enum.TextXAlignment.Left
-			DropdownText.TextTruncate = Enum.TextTruncate.AtEnd
-			DropdownText.Parent = DropdownButton
+			local DropdownList = Instance.new("ScrollingFrame")
+			DropdownList.BackgroundColor3 = Colors.Secondary
+			DropdownList.BorderSizePixel = 0
+			DropdownList.Size = UDim2.new(1, 0, 1, 0)
+			DropdownList.ScrollBarThickness = 4
+			DropdownList.ScrollBarImageColor3 = Colors.Highlight
+			DropdownList.CanvasSize = UDim2.new(0, 0, 0, 0)
+			DropdownList.Parent = DropdownListContainer
 
-			local DropdownIcon = Instance.new("TextLabel")
-			DropdownIcon.BackgroundTransparency = 1
-			DropdownIcon.Position = UDim2.new(1, -20, 0.5, -8)
-			DropdownIcon.Size = UDim2.new(0, 16, 0, 16)
-			DropdownIcon.Font = Enum.Font.GothamBold
-			DropdownIcon.Text = Icons.DownArrow
-			DropdownIcon.TextColor3 = Colors.TextDark
-			DropdownIcon.TextSize = 10
-			DropdownIcon.Parent = DropdownButton
+			local DropdownListCorner = Instance.new("UICorner")
+			DropdownListCorner.CornerRadius = UDim.new(0, 8)
+			DropdownListCorner.Parent = DropdownList
 
-			local DropdownList = Instance.new("Frame")
-			DropdownList.BackgroundTransparency = 1
-			DropdownList.Position = UDim2.new(0.5, 4, 0, isMobile and 58 or 42)
-			DropdownList.Size = UDim2.new(0.5, -16, 0, 0)
-			DropdownList.Parent = DropdownFrame
-
+			local ListGlow = CreateGlow(DropdownList)
+			
 			local ListLayout = Instance.new("UIListLayout")
 			ListLayout.Padding = UDim.new(0, 4)
 			ListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 			ListLayout.Parent = DropdownList
 
 			local ListPadding = Instance.new("UIPadding")
-			ListPadding.PaddingTop = UDim.new(0, 4)
-			ListPadding.PaddingBottom = UDim.new(0, 4)
+			ListPadding.PaddingTop = UDim.new(0, 8)
+			ListPadding.PaddingBottom = UDim.new(0, 8)
+			ListPadding.PaddingLeft = UDim.new(0, 8)
+			ListPadding.PaddingRight = UDim.new(0, 8)
 			ListPadding.Parent = DropdownList
 
 			local isOpen = false
 
 			local function updateListSize()
-				DropdownList.Size = UDim2.new(0.5, -16, 0, ListLayout.AbsoluteContentSize.Y + 8)
+				local contentHeight = ListLayout.AbsoluteContentSize.Y + 16
+				local maxHeight = 200
+				local finalHeight = math.min(contentHeight, maxHeight)
+				
+				DropdownListContainer.Size = UDim2.new(0, 250, 0, finalHeight)
+				DropdownList.CanvasSize = UDim2.new(0, 0, 0, contentHeight)
 			end
 
 			for _, option in ipairs(dropdownConfig.Options) do
 				local OptionButton = Instance.new("TextButton")
 				OptionButton.BackgroundColor3 = Colors.Background
 				OptionButton.BorderSizePixel = 0
-				OptionButton.Size = UDim2.new(1, 0, 0, 28)
+				OptionButton.Size = UDim2.new(1, 0, 0, 32)
 				OptionButton.AutoButtonColor = false
 				OptionButton.Font = Enum.Font.Gotham
 				OptionButton.Text = option
 				OptionButton.TextColor3 = Colors.Text
-				OptionButton.TextSize = 12
-				OptionButton.TextTruncate = Enum.TextTruncate.AtEnd
+				OptionButton.TextSize = 13
 				OptionButton.Parent = DropdownList
 
 				local OptionCorner = Instance.new("UICorner")
@@ -1060,11 +1057,11 @@ function CrimsonUI:CreateWindow(config)
 
 				OptionButton.MouseButton1Click:Connect(function()
 					dropdownConfig.CurrentOption = option
-					DropdownText.Text = option
+					DropdownButton.Text = option
 					dropdownConfig.Callback(option)
+					
 					isOpen = false
-					Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)}, 0.3)
-					Tween(DropdownIcon, {Rotation = 0}, 0.3)
+					DropdownListContainer.Visible = false
 				end)
 
 				OptionButton.MouseEnter:Connect(function()
@@ -1081,30 +1078,50 @@ function CrimsonUI:CreateWindow(config)
 
 			DropdownButton.MouseButton1Click:Connect(function()
 				isOpen = not isOpen
+				DropdownListContainer.Visible = isOpen
+				
 				if isOpen then
 					updateListSize()
-					local targetHeight = (isMobile and 54 or 38) + DropdownList.Size.Y.Offset
-					Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, targetHeight)}, 0.3)
-					Tween(DropdownIcon, {Rotation = 180}, 0.3)
-				else
-					Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, isMobile and 54 or 38)}, 0.3)
-					Tween(DropdownIcon, {Rotation = 0}, 0.3)
 				end
 			end)
 
 			DropdownButton.MouseEnter:Connect(function()
-				Tween(DropdownButton, {BackgroundColor3 = Colors.Accent}, 0.2)
+				Tween(DropdownButton, {BackgroundColor3 = Colors.Primary}, 0.2)
 			end)
 
 			DropdownButton.MouseLeave:Connect(function()
-				Tween(DropdownButton, {BackgroundColor3 = Colors.Background}, 0.2)
+				Tween(DropdownButton, {BackgroundColor3 = Colors.Accent}, 0.2)
+			end)
+
+			-- Close dropdown when clicking outside
+			UserInputService.InputBegan:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+					if isOpen then
+						local mousePos = input.Position
+						local dropdownPos = DropdownFrame.AbsolutePosition
+						local dropdownSize = DropdownFrame.AbsoluteSize
+						local listPos = DropdownListContainer.AbsolutePosition
+						local listSize = DropdownListContainer.AbsoluteSize
+						
+						local inDropdown = mousePos.X >= dropdownPos.X and mousePos.X <= dropdownPos.X + dropdownSize.X and
+						                   mousePos.Y >= dropdownPos.Y and mousePos.Y <= dropdownPos.Y + dropdownSize.Y
+						                   
+						local inList = mousePos.X >= listPos.X and mousePos.X <= listPos.X + listSize.X and
+						               mousePos.Y >= listPos.Y and mousePos.Y <= listPos.Y + listSize.Y
+						
+						if not inDropdown and not inList then
+							isOpen = false
+							DropdownListContainer.Visible = false
+						end
+					end
+				end
 			end)
 
 			return {
 				Set = function(option)
 					if table.find(dropdownConfig.Options, option) then
 						dropdownConfig.CurrentOption = option
-						DropdownText.Text = option
+						DropdownButton.Text = option
 					end
 				end
 			}
@@ -1157,15 +1174,187 @@ function CrimsonUI:CreateWindow(config)
 			ColorDisplayCorner.CornerRadius = UDim.new(0, 6)
 			ColorDisplayCorner.Parent = ColorDisplay
 
+			-- Color Picker Popup
+			local function CreateColorPickerPopup()
+				local Popup = Instance.new("Frame")
+				Popup.Name = "ColorPickerPopup"
+				Popup.BackgroundColor3 = Colors.Secondary
+				Popup.BorderSizePixel = 0
+				Popup.Position = UDim2.new(0.5, -175, 0.5, -150)
+				Popup.Size = UDim2.new(0, 350, 0, 300)
+				Popup.Visible = false
+				Popup.ZIndex = 200
+				Popup.Parent = ScreenGui
+
+				local PopupCorner = Instance.new("UICorner")
+				PopupCorner.CornerRadius = UDim.new(0, 12)
+				PopupCorner.Parent = Popup
+
+				local PopupGlow = CreateGlow(Popup)
+
+				-- Title
+				local PopupTitle = Instance.new("TextLabel")
+				PopupTitle.BackgroundTransparency = 1
+				PopupTitle.Position = UDim2.new(0, 15, 0, 10)
+				PopupTitle.Size = UDim2.new(1, -30, 0, 25)
+				PopupTitle.Font = Enum.Font.GothamBold
+				PopupTitle.Text = "Color Picker"
+				PopupTitle.TextColor3 = Colors.Text
+				PopupTitle.TextSize = 16
+				PopupTitle.TextXAlignment = Enum.TextXAlignment.Left
+				PopupTitle.Parent = Popup
+
+				-- Close Button
+				local CloseButton = Instance.new("TextButton")
+				CloseButton.BackgroundTransparency = 1
+				CloseButton.Position = UDim2.new(1, -35, 0, 10)
+				CloseButton.Size = UDim2.new(0, 25, 0, 25)
+				CloseButton.Font = Enum.Font.GothamBold
+				CloseButton.Text = "×"
+				CloseButton.TextColor3 = Colors.TextDark
+				CloseButton.TextSize = 20
+				CloseButton.Parent = Popup
+
+				CloseButton.MouseButton1Click:Connect(function()
+					Popup.Visible = false
+				end)
+
+				-- Color Preview
+				local ColorPreview = Instance.new("Frame")
+				ColorPreview.BackgroundColor3 = colorConfig.Color
+				ColorPreview.BorderSizePixel = 0
+				ColorPreview.Position = UDim2.new(0, 15, 0, 45)
+				ColorPreview.Size = UDim2.new(1, -30, 0, 60)
+				ColorPreview.Parent = Popup
+
+				local PreviewCorner = Instance.new("UICorner")
+				PreviewCorner.CornerRadius = UDim.new(0, 8)
+				PreviewCorner.Parent = ColorPreview
+
+				-- RGB Inputs
+				local function createRGBInput(name, yPos, defaultValue)
+					local Container = Instance.new("Frame")
+					Container.BackgroundTransparency = 1
+					Container.Position = UDim2.new(0, 15, 0, yPos)
+					Container.Size = UDim2.new(1, -30, 0, 35)
+					Container.Parent = Popup
+
+					local Label = Instance.new("TextLabel")
+					Label.BackgroundTransparency = 1
+					Label.Size = UDim2.new(0, 20, 1, 0)
+					Label.Font = Enum.Font.GothamBold
+					Label.Text = name .. ":"
+					Label.TextColor3 = Colors.Text
+					Label.TextSize = 12
+					Label.TextXAlignment = Enum.TextXAlignment.Left
+					Label.Parent = Container
+
+					local Input = Instance.new("TextBox")
+					Input.BackgroundColor3 = Colors.Background
+					Input.BorderSizePixel = 0
+					Input.Position = UDim2.new(0, 30, 0.5, -12)
+					Input.Size = UDim2.new(1, -30, 0, 24)
+					Input.Font = Enum.Font.Gotham
+					Input.Text = tostring(defaultValue)
+					Input.TextColor3 = Colors.Text
+					Input.TextSize = 12
+					Input.ClearTextOnFocus = false
+					Input.Parent = Container
+
+					local InputCorner = Instance.new("UICorner")
+					InputCorner.CornerRadius = UDim.new(0, 6)
+					InputCorner.Parent = Input
+
+					return Input
+				end
+
+				local RInput = createRGBInput("R", 115, math.floor(colorConfig.Color.R * 255))
+				local GInput = createRGBInput("G", 155, math.floor(colorConfig.Color.G * 255))
+				local BInput = createRGBInput("B", 195, math.floor(colorConfig.Color.B * 255))
+
+				-- Hex Input
+				local HexLabel = Instance.new("TextLabel")
+				HexLabel.BackgroundTransparency = 1
+				HexLabel.Position = UDim2.new(0, 15, 0, 235)
+				HexLabel.Size = UDim2.new(0, 40, 0, 35)
+				HexLabel.Font = Enum.Font.GothamBold
+				HexLabel.Text = "Hex:"
+				HexLabel.TextColor3 = Colors.Text
+				HexLabel.TextSize = 12
+				HexLabel.TextXAlignment = Enum.TextXAlignment.Left
+				HexLabel.Parent = Popup
+
+				local HexInput = Instance.new("TextBox")
+				HexInput.BackgroundColor3 = Colors.Background
+				HexInput.BorderSizePixel = 0
+				HexInput.Position = UDim2.new(0, 55, 0, 241)
+				HexInput.Size = UDim2.new(1, -70, 0, 24)
+				HexInput.Font = Enum.Font.Gotham
+				HexInput.PlaceholderText = "#FFFFFF"
+				HexInput.Text = string.format("#%02X%02X%02X", 
+					math.floor(colorConfig.Color.R * 255),
+					math.floor(colorConfig.Color.G * 255),
+					math.floor(colorConfig.Color.B * 255))
+				HexInput.TextColor3 = Colors.Text
+				HexInput.TextSize = 12
+				HexInput.ClearTextOnFocus = false
+				HexInput.Parent = Popup
+
+				local HexCorner = Instance.new("UICorner")
+				HexCorner.CornerRadius = UDim.new(0, 6)
+				HexCorner.Parent = HexInput
+
+				-- Update functions
+				local function updateFromRGB()
+					local r = math.clamp(tonumber(RInput.Text) or 0, 0, 255)
+					local g = math.clamp(tonumber(GInput.Text) or 0, 0, 255)
+					local b = math.clamp(tonumber(BInput.Text) or 0, 0, 255)
+
+					RInput.Text = tostring(r)
+					GInput.Text = tostring(g)
+					BInput.Text = tostring(b)
+
+					local newColor = Color3.fromRGB(r, g, b)
+					colorConfig.Color = newColor
+					ColorPreview.BackgroundColor3 = newColor
+					ColorDisplay.BackgroundColor3 = newColor
+					HexInput.Text = string.format("#%02X%02X%02X", r, g, b)
+					
+					colorConfig.Callback(newColor)
+				end
+
+				local function updateFromHex()
+					local hex = HexInput.Text:gsub("#", "")
+					if #hex == 6 then
+						local r = tonumber(hex:sub(1, 2), 16) or 0
+						local g = tonumber(hex:sub(3, 4), 16) or 0
+						local b = tonumber(hex:sub(5, 6), 16) or 0
+
+						RInput.Text = tostring(r)
+						GInput.Text = tostring(g)
+						BInput.Text = tostring(b)
+
+						local newColor = Color3.fromRGB(r, g, b)
+						colorConfig.Color = newColor
+						ColorPreview.BackgroundColor3 = newColor
+						ColorDisplay.BackgroundColor3 = newColor
+						
+						colorConfig.Callback(newColor)
+					end
+				end
+
+				RInput.FocusLost:Connect(updateFromRGB)
+				GInput.FocusLost:Connect(updateFromRGB)
+				BInput.FocusLost:Connect(updateFromRGB)
+				HexInput.FocusLost:Connect(updateFromHex)
+
+				return Popup
+			end
+
+			local colorPopup = CreateColorPickerPopup()
+
 			Hitbox.MouseButton1Click:Connect(function()
-				colorConfig.Callback(colorConfig.Color)
-				
-				CrimsonUI:Notify({
-					Title = "Color Picker",
-					Content = "RGB: " .. math.floor(colorConfig.Color.R * 255) .. ", " .. math.floor(colorConfig.Color.G * 255) .. ", " .. math.floor(colorConfig.Color.B * 255),
-					Duration = 3,
-					Icon = "🎨"
-				})
+				colorPopup.Visible = not colorPopup.Visible
 			end)
 
 			ColorFrame.MouseEnter:Connect(function()
