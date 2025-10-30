@@ -1002,11 +1002,10 @@ function CrimsonUI:CreateWindow(config)
 			local DropdownListContainer = Instance.new("Frame")
 			DropdownListContainer.Name = "DropdownList"
 			DropdownListContainer.BackgroundTransparency = 1
-			DropdownListContainer.Position = UDim2.new(0.5, 4, 1, 8)
-			DropdownListContainer.Size = UDim2.new(0.5, -16, 0, 0)
+			DropdownListContainer.Size = UDim2.new(0, 250, 0, 0)
 			DropdownListContainer.Visible = false
-			DropdownListContainer.ZIndex = 255
-			DropdownListContainer.Parent = DropdownFrame
+			DropdownListContainer.ZIndex = 1000
+			DropdownListContainer.Parent = ScreenGui
 
 			local DropdownList = Instance.new("ScrollingFrame")
 			DropdownList.BackgroundColor3 = Colors.Secondary
@@ -1015,7 +1014,7 @@ function CrimsonUI:CreateWindow(config)
 			DropdownList.ScrollBarThickness = 4
 			DropdownList.ScrollBarImageColor3 = Colors.Highlight
 			DropdownList.CanvasSize = UDim2.new(0, 0, 0, 0)
-			DropdownList.ZIndex = 251
+			DropdownList.ZIndex = 1001
 			DropdownList.Parent = DropdownListContainer
 
 			local DropdownListCorner = Instance.new("UICorner")
@@ -1023,7 +1022,7 @@ function CrimsonUI:CreateWindow(config)
 			DropdownListCorner.Parent = DropdownList
 
 			local ListGlow = CreateGlow(DropdownList)
-			ListGlow.ZIndex = 250
+			ListGlow.ZIndex = 1000
 			
 			local ListLayout = Instance.new("UIListLayout")
 			ListLayout.Padding = UDim.new(0, 4)
@@ -1044,8 +1043,14 @@ function CrimsonUI:CreateWindow(config)
 				local maxHeight = 200
 				local finalHeight = math.min(contentHeight, maxHeight)
 				
-				DropdownListContainer.Size = UDim2.new(0.5, -16, 0, finalHeight)
+				DropdownListContainer.Size = UDim2.new(0, 250, 0, finalHeight)
 				DropdownList.CanvasSize = UDim2.new(0, 0, 0, contentHeight)
+			end
+
+			local function updateListPosition()
+				local buttonPos = DropdownButton.AbsolutePosition
+				local buttonSize = DropdownButton.AbsoluteSize
+				DropdownListContainer.Position = UDim2.new(0, buttonPos.X, 0, buttonPos.Y + buttonSize.Y + 8)
 			end
 
 			for _, option in ipairs(dropdownConfig.Options) do
@@ -1058,7 +1063,7 @@ function CrimsonUI:CreateWindow(config)
 				OptionButton.Text = option
 				OptionButton.TextColor3 = Colors.Text
 				OptionButton.TextSize = 13
-				OptionButton.ZIndex = 252
+				OptionButton.ZIndex = 1002
 				OptionButton.Parent = DropdownList
 
 				local OptionCorner = Instance.new("UICorner")
@@ -1098,6 +1103,7 @@ function CrimsonUI:CreateWindow(config)
 				DropdownListContainer.Visible = isOpen
 				
 				if isOpen then
+					updateListPosition()
 					updateListSize()
 					
 					if dropdownConnection then
