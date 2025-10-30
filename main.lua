@@ -1005,7 +1005,7 @@ function CrimsonUI:CreateWindow(config)
 			DropdownListContainer.Position = UDim2.new(0.5, 4, 1, 8)
 			DropdownListContainer.Size = UDim2.new(0.5, -16, 0, 0)
 			DropdownListContainer.Visible = false
-			DropdownListContainer.ZIndex = 255
+			DropdownListContainer.ZIndex = 1000
 			DropdownListContainer.Parent = DropdownFrame
 
 			local DropdownList = Instance.new("ScrollingFrame")
