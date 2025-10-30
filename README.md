@@ -18,9 +18,7 @@ Core Features
 UI Elements
 
 · Buttons
-
 · Toggles
-
 · Sliders
 · Text Inputs
 · Dropdown Menus
