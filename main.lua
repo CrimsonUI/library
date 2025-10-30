@@ -12,86 +12,161 @@ local Colors = {
 }
 
 local Themes = {
-	["Crimson"] = {Primary = Color3.fromRGB(180, 25, 45), Highlight = Color3.fromRGB(220, 35, 55), Accent = Color3.fromRGB(65, 20, 30)},
-	["Midnight"] = {Primary = Color3.fromRGB(30, 30, 60), Highlight = Color3.fromRGB(50, 50, 90), Accent = Color3.fromRGB(20, 20, 40)},
-	["Ocean"] = {Primary = Color3.fromRGB(0, 120, 215), Highlight = Color3.fromRGB(0, 160, 255), Accent = Color3.fromRGB(0, 80, 150)},
-	["Forest"] = {Primary = Color3.fromRGB(34, 139, 34), Highlight = Color3.fromRGB(50, 205, 50), Accent = Color3.fromRGB(20, 90, 20)},
-	["Sunset"] = {Primary = Color3.fromRGB(255, 94, 0), Highlight = Color3.fromRGB(255, 140, 0), Accent = Color3.fromRGB(200, 70, 0)},
-	["Violet"] = {Primary = Color3.fromRGB(138, 43, 226), Highlight = Color3.fromRGB(186, 85, 211), Accent = Color3.fromRGB(90, 20, 150)},
-	["Rose"] = {Primary = Color3.fromRGB(220, 20, 60), Highlight = Color3.fromRGB(255, 20, 147), Accent = Color3.fromRGB(150, 10, 40)},
-	["Azure"] = {Primary = Color3.fromRGB(0, 191, 255), Highlight = Color3.fromRGB(135, 206, 250), Accent = Color3.fromRGB(0, 130, 200)},
-	["Amber"] = {Primary = Color3.fromRGB(255, 191, 0), Highlight = Color3.fromRGB(255, 215, 0), Accent = Color3.fromRGB(200, 150, 0)},
-	["Emerald"] = {Primary = Color3.fromRGB(0, 128, 0), Highlight = Color3.fromRGB(50, 205, 50), Accent = Color3.fromRGB(0, 90, 0)},
-	["Slate"] = {Primary = Color3.fromRGB(70, 70, 80), Highlight = Color3.fromRGB(100, 100, 120), Accent = Color3.fromRGB(50, 50, 60)},
-	["Coral"] = {Primary = Color3.fromRGB(255, 90, 90), Highlight = Color3.fromRGB(255, 130, 130), Accent = Color3.fromRGB(200, 60, 60)},
-	["Indigo"] = {Primary = Color3.fromRGB(75, 0, 130), Highlight = Color3.fromRGB(100, 0, 200), Accent = Color3.fromRGB(50, 0, 90)},
-	["Teal"] = {Primary = Color3.fromRGB(0, 128, 128), Highlight = Color3.fromRGB(0, 200, 200), Accent = Color3.fromRGB(0, 90, 90)},
-	["Plum"] = {Primary = Color3.fromRGB(139, 0, 139), Highlight = Color3.fromRGB(199, 21, 133), Accent = Color3.fromRGB(90, 0, 90)}
+	["Crimson"] = {
+		Background = Color3.fromRGB(30, 30, 36),
+		Secondary = Color3.fromRGB(40, 40, 46),
+		Accent = Color3.fromRGB(65, 20, 30),
+		Primary = Color3.fromRGB(180, 25, 45),
+		Highlight = Color3.fromRGB(220, 35, 55),
+		Bright = Color3.fromRGB(255, 50, 70),
+		Text = Color3.fromRGB(245, 245, 245),
+		TextDark = Color3.fromRGB(180, 180, 180)
+	},
+	["Midnight"] = {
+		Background = Color3.fromRGB(25, 25, 35),
+		Secondary = Color3.fromRGB(35, 35, 45),
+		Accent = Color3.fromRGB(20, 20, 40),
+		Primary = Color3.fromRGB(30, 30, 60),
+		Highlight = Color3.fromRGB(50, 50, 90),
+		Bright = Color3.fromRGB(70, 70, 120),
+		Text = Color3.fromRGB(245, 245, 245),
+		TextDark = Color3.fromRGB(180, 180, 190)
+	},
+	["Ocean"] = {
+		Background = Color3.fromRGB(20, 30, 40),
+		Secondary = Color3.fromRGB(30, 40, 50),
+		Accent = Color3.fromRGB(0, 80, 150),
+		Primary = Color3.fromRGB(0, 120, 215),
+		Highlight = Color3.fromRGB(0, 160, 255),
+		Bright = Color3.fromRGB(100, 200, 255),
+		Text = Color3.fromRGB(245, 245, 245),
+		TextDark = Color3.fromRGB(180, 190, 200)
+	},
+	["Forest"] = {
+		Background = Color3.fromRGB(20, 30, 20),
+		Secondary = Color3.fromRGB(30, 40, 30),
+		Accent = Color3.fromRGB(20, 90, 20),
+		Primary = Color3.fromRGB(34, 139, 34),
+		Highlight = Color3.fromRGB(50, 205, 50),
+		Bright = Color3.fromRGB(100, 255, 100),
+		Text = Color3.fromRGB(245, 245, 245),
+		TextDark = Color3.fromRGB(180, 200, 180)
+	},
+	["Sunset"] = {
+		Background = Color3.fromRGB(35, 25, 20),
+		Secondary = Color3.fromRGB(45, 35, 30),
+		Accent = Color3.fromRGB(200, 70, 0),
+		Primary = Color3.fromRGB(255, 94, 0),
+		Highlight = Color3.fromRGB(255, 140, 0),
+		Bright = Color3.fromRGB(255, 180, 50),
+		Text = Color3.fromRGB(245, 245, 245),
+		TextDark = Color3.fromRGB(200, 180, 160)
+	},
+	["Violet"] = {
+		Background = Color3.fromRGB(30, 20, 40),
+		Secondary = Color3.fromRGB(40, 30, 50),
+		Accent = Color3.fromRGB(90, 20, 150),
+		Primary = Color3.fromRGB(138, 43, 226),
+		Highlight = Color3.fromRGB(186, 85, 211),
+		Bright = Color3.fromRGB(220, 120, 255),
+		Text = Color3.fromRGB(245, 245, 245),
+		TextDark = Color3.fromRGB(200, 180, 210)
+	},
+	["Rose"] = {
+		Background = Color3.fromRGB(35, 20, 25),
+		Secondary = Color3.fromRGB(45, 30, 35),
+		Accent = Color3.fromRGB(150, 10, 40),
+		Primary = Color3.fromRGB(220, 20, 60),
+		Highlight = Color3.fromRGB(255, 20, 147),
+		Bright = Color3.fromRGB(255, 100, 180),
+		Text = Color3.fromRGB(245, 245, 245),
+		TextDark = Color3.fromRGB(200, 180, 190)
+	},
+	["Azure"] = {
+		Background = Color3.fromRGB(20, 30, 40),
+		Secondary = Color3.fromRGB(30, 40, 50),
+		Accent = Color3.fromRGB(0, 130, 200),
+		Primary = Color3.fromRGB(0, 191, 255),
+		Highlight = Color3.fromRGB(135, 206, 250),
+		Bright = Color3.fromRGB(180, 230, 255),
+		Text = Color3.fromRGB(245, 245, 245),
+		TextDark = Color3.fromRGB(180, 200, 220)
+	},
+	["Amber"] = {
+		Background = Color3.fromRGB(35, 30, 20),
+		Secondary = Color3.fromRGB(45, 40, 30),
+		Accent = Color3.fromRGB(200, 150, 0),
+		Primary = Color3.fromRGB(255, 191, 0),
+		Highlight = Color3.fromRGB(255, 215, 0),
+		Bright = Color3.fromRGB(255, 235, 100),
+		Text = Color3.fromRGB(245, 245, 245),
+		TextDark = Color3.fromRGB(200, 190, 160)
+	},
+	["Emerald"] = {
+		Background = Color3.fromRGB(15, 30, 15),
+		Secondary = Color3.fromRGB(25, 40, 25),
+		Accent = Color3.fromRGB(0, 90, 0),
+		Primary = Color3.fromRGB(0, 128, 0),
+		Highlight = Color3.fromRGB(50, 205, 50),
+		Bright = Color3.fromRGB(100, 255, 100),
+		Text = Color3.fromRGB(245, 245, 245),
+		TextDark = Color3.fromRGB(180, 210, 180)
+	},
+	["Slate"] = {
+		Background = Color3.fromRGB(30, 30, 35),
+		Secondary = Color3.fromRGB(40, 40, 45),
+		Accent = Color3.fromRGB(50, 50, 60),
+		Primary = Color3.fromRGB(70, 70, 80),
+		Highlight = Color3.fromRGB(100, 100, 120),
+		Bright = Color3.fromRGB(130, 130, 150),
+		Text = Color3.fromRGB(245, 245, 245),
+		TextDark = Color3.fromRGB(180, 180, 190)
+	},
+	["Coral"] = {
+		Background = Color3.fromRGB(35, 25, 25),
+		Secondary = Color3.fromRGB(45, 35, 35),
+		Accent = Color3.fromRGB(200, 60, 60),
+		Primary = Color3.fromRGB(255, 90, 90),
+		Highlight = Color3.fromRGB(255, 130, 130),
+		Bright = Color3.fromRGB(255, 170, 170),
+		Text = Color3.fromRGB(245, 245, 245),
+		TextDark = Color3.fromRGB(200, 180, 180)
+	},
+	["Indigo"] = {
+		Background = Color3.fromRGB(20, 15, 30),
+		Secondary = Color3.fromRGB(30, 25, 40),
+		Accent = Color3.fromRGB(50, 0, 90),
+		Primary = Color3.fromRGB(75, 0, 130),
+		Highlight = Color3.fromRGB(100, 0, 200),
+		Bright = Color3.fromRGB(150, 50, 255),
+		Text = Color3.fromRGB(245, 245, 245),
+		TextDark = Color3.fromRGB(190, 180, 210)
+	},
+	["Teal"] = {
+		Background = Color3.fromRGB(15, 30, 30),
+		Secondary = Color3.fromRGB(25, 40, 40),
+		Accent = Color3.fromRGB(0, 90, 90),
+		Primary = Color3.fromRGB(0, 128, 128),
+		Highlight = Color3.fromRGB(0, 200, 200),
+		Bright = Color3.fromRGB(100, 255, 255),
+		Text = Color3.fromRGB(245, 245, 245),
+		TextDark = Color3.fromRGB(180, 210, 210)
+	},
+	["Plum"] = {
+		Background = Color3.fromRGB(30, 15, 30),
+		Secondary = Color3.fromRGB(40, 25, 40),
+		Accent = Color3.fromRGB(90, 0, 90),
+		Primary = Color3.fromRGB(139, 0, 139),
+		Highlight = Color3.fromRGB(199, 21, 133),
+		Bright = Color3.fromRGB(255, 100, 200),
+		Text = Color3.fromRGB(245, 245, 245),
+		TextDark = Color3.fromRGB(200, 180, 200)
+	}
 }
 
 local Icons = {
-	Home = "rbxassetid://10723434711",
-	Settings = "rbxassetid://10734950309",
-	User = "rbxassetid://10734976649",
-	Users = "rbxassetid://10747374668",
-	Shield = "rbxassetid://10723407389",
-	Sword = "rbxassetid://10723424838",
-	Crown = "rbxassetid://10723343321",
-	Star = "rbxassetid://10734896629",
-	Heart = "rbxassetid://10723362641",
-	Book = "rbxassetid://10723230681",
-	Briefcase = "rbxassetid://10723243288",
-	Calendar = "rbxassetid://10723251031",
-	Camera = "rbxassetid://10723253324",
-	Code = "rbxassetid://10734920967",
-	Zap = "rbxassetid://10747374401",
-	Activity = "rbxassetid://10723156937",
-	Airplay = "rbxassetid://10723167145",
-	AlertCircle = "rbxassetid://10723190825",
-	AlertTriangle = "rbxassetid://10723194220",
-	Archive = "rbxassetid://10723202807",
-	Award = "rbxassetid://10723211913",
-	Bell = "rbxassetid://10723218687",
-	Box = "rbxassetid://10723239365",
-	Command = "rbxassetid://10723276623",
-	Cpu = "rbxassetid://10723299933",
-	Database = "rbxassetid://10723315866",
-	Download = "rbxassetid://10723333811",
-	Eye = "rbxassetid://10723345828",
-	File = "rbxassetid://10723354283",
-	Flag = "rbxassetid://10723362114",
-	Gift = "rbxassetid://10723368599",
-	Globe = "rbxassetid://10723374641",
-	Grid = "rbxassetid://10723381488",
-	Info = "rbxassetid://10723394478",
-	Key = "rbxassetid://10723404337",
-	Lock = "rbxassetid://10723415860",
-	Mail = "rbxassetid://10723422286",
-	Map = "rbxassetid://10723428964",
-	Menu = "rbxassetid://10723432965",
-	MessageCircle = "rbxassetid://10723438926",
-	Package = "rbxassetid://10723451474",
-	Pencil = "rbxassetid://10723456277",
-	Play = "rbxassetid://10723460682",
-	Plus = "rbxassetid://10723465109",
-	Search = "rbxassetid://10723473139",
-	Server = "rbxassetid://10723478828",
-	Share = "rbxassetid://10723481263",
-	ShoppingCart = "rbxassetid://10723486595",
-	Shuffle = "rbxassetid://10723491039",
-	Target = "rbxassetid://10723495631",
-	Terminal = "rbxassetid://10723499098",
-	Tool = "rbxassetid://10723504321",
-	Trash = "rbxassetid://10723509375",
-	TrendingUp = "rbxassetid://10723514922",
-	Trophy = "rbxassetid://10723520081",
-	Upload = "rbxassetid://10723525258",
-	Wrench = "rbxassetid://10723544691",
-	X = "rbxassetid://10734896547",
-	Minimize = "rbxassetid://10723422226",
-	DownArrow = "rbxassetid://10709791437",
-	CheckCircle = "rbxassetid://10723260220",
-	Clock = "rbxassetid://10723270890"
+	Minimize = "−",
+	DownArrow = "▼"
 }
 
 local TweenService = game:GetService("TweenService")
@@ -159,13 +234,15 @@ local function CreateLoadingScreen(parent, config)
 	Subtitle.TextSize = 14
 	Subtitle.Parent = LoadingFrame
 
-	local Spinner = Instance.new("ImageLabel")
+	local Spinner = Instance.new("TextLabel")
 	Spinner.BackgroundTransparency = 1
 	Spinner.Position = UDim2.new(0.5, 0, 0, 130)
 	Spinner.AnchorPoint = Vector2.new(0.5, 0)
 	Spinner.Size = UDim2.new(0, 40, 0, 40)
-	Spinner.Image = "rbxassetid://6031097225"
-	Spinner.ImageColor3 = Colors.Highlight
+	Spinner.Font = Enum.Font.GothamBold
+	Spinner.Text = "◌"
+	Spinner.TextColor3 = Colors.Highlight
+	Spinner.TextSize = 32
 	Spinner.Parent = LoadingFrame
 
 	local spinTween = TweenService:Create(Spinner, TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1), {Rotation = 360})
@@ -180,7 +257,7 @@ local function CreateLoadingScreen(parent, config)
 			}, 0.5)
 			Tween(Title, {TextTransparency = 1}, 0.3)
 			Tween(Subtitle, {TextTransparency = 1}, 0.3)
-			Tween(Spinner, {ImageTransparency = 1}, 0.3)
+			Tween(Spinner, {TextTransparency = 1}, 0.3)
 			
 			task.delay(0.3, function()
 				mainFrame.Visible = true
@@ -198,12 +275,17 @@ local UIElements = {}
 
 function CrimsonUI:SetTheme(name)
 	if not Themes[name] then return end
-	Colors.Primary = Themes[name].Primary
-	Colors.Highlight = Themes[name].Highlight
-	Colors.Accent = Themes[name].Accent
+	
+	for key, value in pairs(Themes[name]) do
+		Colors[key] = value
+	end
 	
 	for _, element in ipairs(UIElements) do
-		if element.Type == "TopBar" then
+		if element.Type == "Background" then
+			Tween(element.Object, {BackgroundColor3 = Colors.Background}, 0.3)
+		elseif element.Type == "Secondary" then
+			Tween(element.Object, {BackgroundColor3 = Colors.Secondary}, 0.3)
+		elseif element.Type == "TopBar" then
 			Tween(element.Object, {BackgroundColor3 = Colors.Accent}, 0.3)
 		elseif element.Type == "TopBarFix" then
 			Tween(element.Object, {BackgroundColor3 = Colors.Accent}, 0.3)
@@ -211,14 +293,10 @@ function CrimsonUI:SetTheme(name)
 			Tween(element.Object, {ImageColor3 = Colors.Highlight}, 0.3)
 		elseif element.Type == "ActiveTab" then
 			Tween(element.Object, {BackgroundColor3 = Colors.Primary}, 0.3)
-		elseif element.Type == "ActiveTabIcon" then
-			Tween(element.Object, {ImageColor3 = Colors.Text}, 0.3)
 		elseif element.Type == "ActiveTabLabel" then
 			Tween(element.Object, {TextColor3 = Colors.Text}, 0.3)
 		elseif element.Type == "HighlightText" then
 			Tween(element.Object, {TextColor3 = Colors.Highlight}, 0.3)
-		elseif element.Type == "HighlightImage" then
-			Tween(element.Object, {ImageColor3 = Colors.Highlight}, 0.3)
 		elseif element.Type == "HighlightBackground" then
 			Tween(element.Object, {BackgroundColor3 = Colors.Highlight}, 0.3)
 		elseif element.Type == "ScrollBar" then
@@ -254,6 +332,7 @@ function CrimsonUI:CreateWindow(config)
 	MainFrame.ClipsDescendants = true
 	MainFrame.Visible = false
 	MainFrame.Parent = ScreenGui
+	table.insert(UIElements, {Type = "Background", Object = MainFrame})
 
 	local MainCorner = Instance.new("UICorner")
 	MainCorner.CornerRadius = UDim.new(0, 12)
@@ -304,17 +383,12 @@ function CrimsonUI:CreateWindow(config)
 	MinimizeButton.BackgroundTransparency = 1
 	MinimizeButton.Position = UDim2.new(1, -50, 0.5, -14)
 	MinimizeButton.Size = UDim2.new(0, 28, 0, 28)
-	MinimizeButton.Text = ""
+	MinimizeButton.Font = Enum.Font.GothamBold
+	MinimizeButton.Text = Icons.Minimize
+	MinimizeButton.TextColor3 = Colors.TextDark
+	MinimizeButton.TextSize = 20
 	MinimizeButton.ZIndex = 10
 	MinimizeButton.Parent = TopBar
-
-	local MinimizeIcon = Instance.new("ImageLabel")
-	MinimizeIcon.Name = "Icon"
-	MinimizeIcon.BackgroundTransparency = 1
-	MinimizeIcon.Size = UDim2.new(1, 0, 1, 0)
-	MinimizeIcon.Image = Icons.Minimize
-	MinimizeIcon.ImageColor3 = Colors.TextDark
-	MinimizeIcon.Parent = MinimizeButton
 
 	local TabContainer = Instance.new("Frame")
 	TabContainer.Name = "TabContainer"
@@ -323,6 +397,7 @@ function CrimsonUI:CreateWindow(config)
 	TabContainer.Position = UDim2.new(0, 0, 0, 45)
 	TabContainer.Size = UDim2.new(1, 0, 0, 45)
 	TabContainer.Parent = MainFrame
+	table.insert(UIElements, {Type = "Secondary", Object = TabContainer})
 
 	local TabList = Instance.new("ScrollingFrame")
 	TabList.Name = "TabList"
@@ -386,19 +461,19 @@ function CrimsonUI:CreateWindow(config)
 		minimized = not minimized
 		if minimized then
 			Tween(MainFrame, {Size = UDim2.new(0, 600, 0, 45)}, 0.3)
-			Tween(MinimizeIcon, {Rotation = 180}, 0.3)
+			Tween(MinimizeButton, {Rotation = 180}, 0.3)
 		else
 			Tween(MainFrame, {Size = UDim2.new(0, 600, 0, 400)}, 0.3)
-			Tween(MinimizeIcon, {Rotation = 0}, 0.3)
+			Tween(MinimizeButton, {Rotation = 0}, 0.3)
 		end
 	end)
 
 	MinimizeButton.MouseEnter:Connect(function()
-		Tween(MinimizeIcon, {ImageColor3 = Colors.Highlight}, 0.2)
+		Tween(MinimizeButton, {TextColor3 = Colors.Highlight}, 0.2)
 	end)
 
 	MinimizeButton.MouseLeave:Connect(function()
-		Tween(MinimizeIcon, {ImageColor3 = Colors.TextDark}, 0.2)
+		Tween(MinimizeButton, {TextColor3 = Colors.TextDark}, 0.2)
 	end)
 
 	TabListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
@@ -412,8 +487,7 @@ function CrimsonUI:CreateWindow(config)
 
 	function Window:CreateTab(config)
 		local tabConfig = {
-			Name = config.Name or "Tab",
-			Icon = config.Icon or Icons.Home
+			Name = config.Name or "Tab"
 		}
 
 		local TabButton = Instance.new("TextButton")
@@ -422,7 +496,10 @@ function CrimsonUI:CreateWindow(config)
 		TabButton.BorderSizePixel = 0
 		TabButton.Size = UDim2.new(0, 100, 0, 35)
 		TabButton.AutoButtonColor = false
-		TabButton.Text = ""
+		TabButton.Font = Enum.Font.GothamMedium
+		TabButton.Text = tabConfig.Name
+		TabButton.TextColor3 = Colors.TextDark
+		TabButton.TextSize = 13
 		TabButton.Parent = TabList
 
 		if isMobile then
@@ -432,27 +509,6 @@ function CrimsonUI:CreateWindow(config)
 		local TabCorner = Instance.new("UICorner")
 		TabCorner.CornerRadius = UDim.new(0, 8)
 		TabCorner.Parent = TabButton
-
-		local TabIcon = Instance.new("ImageLabel")
-		TabIcon.Name = "Icon"
-		TabIcon.BackgroundTransparency = 1
-		TabIcon.Position = UDim2.new(0, 8, 0.5, -10)
-		TabIcon.Size = UDim2.new(0, 20, 0, 20)
-		TabIcon.Image = tabConfig.Icon
-		TabIcon.ImageColor3 = Colors.TextDark
-		TabIcon.Parent = TabButton
-
-		local TabLabel = Instance.new("TextLabel")
-		TabLabel.Name = "Label"
-		TabLabel.BackgroundTransparency = 1
-		TabLabel.Position = UDim2.new(0, 32, 0, 0)
-		TabLabel.Size = UDim2.new(1, -36, 1, 0)
-		TabLabel.Font = Enum.Font.GothamMedium
-		TabLabel.Text = tabConfig.Name
-		TabLabel.TextColor3 = Colors.TextDark
-		TabLabel.TextSize = 13
-		TabLabel.TextXAlignment = Enum.TextXAlignment.Left
-		TabLabel.Parent = TabButton
 
 		local TabContent = Instance.new("ScrollingFrame")
 		TabContent.Name = tabConfig.Name .. "Content"
@@ -485,24 +541,17 @@ function CrimsonUI:CreateWindow(config)
 		local Tab = {
 			Button = TabButton,
 			Content = TabContent,
-			Elements = {},
-			Icon = TabIcon,
-			Label = TabLabel
+			Elements = {}
 		}
 
 		TabButton.MouseButton1Click:Connect(function()
 			for _, tab in pairs(Window.Tabs) do
 				tab.Content.Visible = false
 				Tween(tab.Button, {BackgroundColor3 = Colors.Background}, 0.2)
-				Tween(tab.Icon, {ImageColor3 = Colors.TextDark}, 0.2)
-				Tween(tab.Label, {TextColor3 = Colors.TextDark}, 0.2)
+				Tween(tab.Button, {TextColor3 = Colors.TextDark}, 0.2)
 				
 				for i = #UIElements, 1, -1 do
 					if UIElements[i].Object == tab.Button then
-						table.remove(UIElements, i)
-					elseif UIElements[i].Object == tab.Icon then
-						table.remove(UIElements, i)
-					elseif UIElements[i].Object == tab.Label then
 						table.remove(UIElements, i)
 					end
 				end
@@ -510,12 +559,10 @@ function CrimsonUI:CreateWindow(config)
 
 			TabContent.Visible = true
 			Tween(TabButton, {BackgroundColor3 = Colors.Primary}, 0.2)
-			Tween(TabIcon, {ImageColor3 = Colors.Text}, 0.2)
-			Tween(TabLabel, {TextColor3 = Colors.Text}, 0.2)
+			Tween(TabButton, {TextColor3 = Colors.Text}, 0.2)
 			
 			table.insert(UIElements, {Type = "ActiveTab", Object = TabButton})
-			table.insert(UIElements, {Type = "ActiveTabIcon", Object = TabIcon})
-			table.insert(UIElements, {Type = "ActiveTabLabel", Object = TabLabel})
+			table.insert(UIElements, {Type = "ActiveTabLabel", Object = TabButton})
 			
 			Window.CurrentTab = Tab
 		end)
@@ -960,12 +1007,14 @@ function CrimsonUI:CreateWindow(config)
 			DropdownButtonCorner.CornerRadius = UDim.new(0, 6)
 			DropdownButtonCorner.Parent = DropdownButton
 
-			local DropdownIcon = Instance.new("ImageLabel")
+			local DropdownIcon = Instance.new("TextLabel")
 			DropdownIcon.BackgroundTransparency = 1
 			DropdownIcon.Position = UDim2.new(1, -22, 0.5, -8)
 			DropdownIcon.Size = UDim2.new(0, 16, 0, 16)
-			DropdownIcon.Image = Icons.DownArrow
-			DropdownIcon.ImageColor3 = Colors.TextDark
+			DropdownIcon.Font = Enum.Font.GothamBold
+			DropdownIcon.Text = Icons.DownArrow
+			DropdownIcon.TextColor3 = Colors.TextDark
+			DropdownIcon.TextSize = 10
 			DropdownIcon.Parent = DropdownButton
 
 			local DropdownList = Instance.new("Frame")
@@ -1344,12 +1393,10 @@ function CrimsonUI:CreateWindow(config)
 		if #Window.Tabs == 1 then
 			TabContent.Visible = true
 			Tween(TabButton, {BackgroundColor3 = Colors.Primary}, 0.2)
-			Tween(TabIcon, {ImageColor3 = Colors.Text}, 0.2)
-			Tween(TabLabel, {TextColor3 = Colors.Text}, 0.2)
+			Tween(TabButton, {TextColor3 = Colors.Text}, 0.2)
 			
 			table.insert(UIElements, {Type = "ActiveTab", Object = TabButton})
-			table.insert(UIElements, {Type = "ActiveTabIcon", Object = TabIcon})
-			table.insert(UIElements, {Type = "ActiveTabLabel", Object = TabLabel})
+			table.insert(UIElements, {Type = "ActiveTabLabel", Object = TabButton})
 			
 			Window.CurrentTab = Tab
 
@@ -1380,7 +1427,7 @@ function CrimsonUI:Notify(config)
 		Title = config.Title or "Notification",
 		Content = config.Content or "This is a notification",
 		Duration = config.Duration or 5,
-		Image = config.Image or Icons.Bell
+		Icon = config.Icon or "!"
 	}
 
 	local ScreenGui = game:GetService("CoreGui"):FindFirstChild("CrimsonUI_Notifications")
@@ -1407,14 +1454,16 @@ function CrimsonUI:Notify(config)
 	local notifGlow = CreateGlow(NotificationFrame)
 	table.insert(UIElements, {Type = "Glow", Object = notifGlow})
 
-	local NotificationIcon = Instance.new("ImageLabel")
+	local NotificationIcon = Instance.new("TextLabel")
 	NotificationIcon.BackgroundTransparency = 1
 	NotificationIcon.Position = UDim2.new(0, 12, 0.5, -20)
 	NotificationIcon.Size = UDim2.new(0, 40, 0, 40)
-	NotificationIcon.Image = notifyConfig.Image
-	NotificationIcon.ImageColor3 = Colors.Highlight
+	NotificationIcon.Font = Enum.Font.GothamBold
+	NotificationIcon.Text = notifyConfig.Icon
+	NotificationIcon.TextColor3 = Colors.Highlight
+	NotificationIcon.TextSize = 24
 	NotificationIcon.Parent = NotificationFrame
-	table.insert(UIElements, {Type = "HighlightImage", Object = NotificationIcon})
+	table.insert(UIElements, {Type = "HighlightText", Object = NotificationIcon})
 
 	local NotificationTitle = Instance.new("TextLabel")
 	NotificationTitle.BackgroundTransparency = 1
