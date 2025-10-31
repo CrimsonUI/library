@@ -1022,7 +1022,7 @@ function CrimsonUI:CreateWindow(config)
 			DropdownListCorner.Parent = DropdownList
 
 			local ListGlow = CreateGlow(DropdownList)
-			ListGlow.ZIndex = 10000
+			ListGlow.ZIndex = 9999
 			
 			local ListLayout = Instance.new("UIListLayout")
 			ListLayout.Padding = UDim.new(0, 4)
