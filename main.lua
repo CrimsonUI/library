@@ -282,7 +282,6 @@ end
 local UIElements = {}
 
 function CrimsonUI:SetTheme(name)
-	-- Allow case-insensitive theme names
 	local themeName = nil
 	for key, _ in pairs(Themes) do
 		if key:lower() == tostring(name):lower() then
@@ -1050,7 +1049,7 @@ function CrimsonUI:CreateWindow(config)
 			Arrow.ZIndex = 3
 			Arrow.Parent = DropdownButton
 
-			-- Create dropdown list container
+			
 			local DropdownListContainer = Instance.new("Frame")
 			DropdownListContainer.Name = "DropdownListContainer_" .. dropdownConfig.Name
 			DropdownListContainer.BackgroundTransparency = 1
@@ -1112,7 +1111,7 @@ function CrimsonUI:CreateWindow(config)
 				local posX = buttonPos.X
 				local posY = buttonPos.Y + buttonSize.Y + 4
 				
-				-- Keep dropdown on screen
+				
 				if posX + 280 > screenSize.X then
 					posX = screenSize.X - 290
 				end
@@ -1135,7 +1134,7 @@ function CrimsonUI:CreateWindow(config)
 				end
 			end
 
-			-- Create option buttons
+			
 			for _, option in ipairs(dropdownConfig.Options) do
 				local OptionButton = Instance.new("TextButton")
 				OptionButton.BackgroundColor3 = Colors.Background
@@ -1174,7 +1173,7 @@ function CrimsonUI:CreateWindow(config)
 			ListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateListSize)
 			task.spawn(updateListSize)
 
-			-- Toggle dropdown
+			
 			DropdownButton.MouseButton1Click:Connect(function()
 				isOpen = not isOpen
 				DropdownListContainer.Visible = isOpen
@@ -1242,7 +1241,6 @@ function CrimsonUI:CreateWindow(config)
 					end
 				end,
 				Refresh = function(newOptions)
-					-- Clear existing options
 					for _, child in ipairs(DropdownList:GetChildren()) do
 						if child:IsA("TextButton") then
 							child:Destroy()
@@ -1251,7 +1249,7 @@ function CrimsonUI:CreateWindow(config)
 					
 					dropdownConfig.Options = newOptions
 					
-					-- Recreate options
+					
 					for _, option in ipairs(newOptions) do
 						local OptionButton = Instance.new("TextButton")
 						OptionButton.BackgroundColor3 = Colors.Background
